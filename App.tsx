@@ -18,11 +18,12 @@ export default function App() {
     //   </SafeAreaProvider>
     // </NavigationContainer>
     <NavigationContainer>
-          {/* <TopPage /> */}
+      
+          <ScreenNavi />
+      
+      {/* <TopPage /> */}
 
-          <BottomTabTopPage />
-          {/* <DrawerTopPage /> */}
-        
+      {/* <DrawerTopPage /> */}
     </NavigationContainer>
   );
 }
