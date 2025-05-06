@@ -1,13 +1,18 @@
 import { View, ViewStyle } from "react-native";
 import HitResult from "./HitResult";
-import { useState } from "react";
-import { HitType } from "../commonTypes/types";
+import { useEffect, useState } from "react";
+import { HitDataType, HitType } from "../commonTypes/types";
 
+// export default (props: HitDataType) => {
 export default (props: HitResultBaseProps) => {
   const [firstHit, setFirstHit] = useState<HitType>(props.first ? props.first : null);
   const [secondHit, setSecondHit] = useState<HitType>(null);
   const [thirdHit, setThirdHit] = useState<HitType>(null);
   const [fourthHit, setFourthHit] = useState<HitType>(null);
+
+  useEffect(() => {
+    
+  }, [firstHit, secondHit, thirdHit, fourthHit])
 
   return (
     <View style={styles.hitResultBaseContainer}>

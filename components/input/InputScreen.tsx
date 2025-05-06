@@ -60,8 +60,20 @@ export default function InputScreen() {
                 , third BOOLEAN DEFAULT NULL
                 , fourth BOOLEAN DEFAULT NULL
                 )`);
-            const rows: HitDataType[] = await db.getAllAsync('SELECT * FROM hit_test_data');
+            const rows: HitDataType[] = await db.getAllAsync('SELECT * FROM position');
             console.log('rows:', rows);
+
+                // -------------------
+                
+                console.log('positionList:', await db.execAsync(`
+                    SELECT * FROM position
+                `))
+               
+                console.log('sqliteMaster:', await db.execAsync(`
+                    SELECT * FROM sqlite_master
+                `))
+                // ----------------------
+
             if(rows.length === 0) {
                 setDataList([defaultHitData]);
             } else {
