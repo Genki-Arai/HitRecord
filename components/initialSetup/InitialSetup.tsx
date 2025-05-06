@@ -18,64 +18,53 @@ export default () => {
     async function createHitTestDataTable() {
       try {
         const db = await SQLite.openDatabaseAsync("test.db");
-        console.log('db:', db)
         await db.execAsync(`PRAGMA journal_mode = WAL;`);
-        await db.execAsync(`
-            CREATE TABLE IF NOT EXISTS hit_test_data (
-            id INTEGER PRIMARY KEY AUTOINCREMENT
-            , date TEXT NOT NULL
-            , time TEXT NOT NULL
-            , first BOOLEAN DEFAULT NULL
-            , second BOOLEAN DEFAULT NULL
-            , third BOOLEAN DEFAULT NULL
-            , fourth BOOLEAN DEFAULT NULL
-            )`);
-        console.log("Hit test data table created or already exists.");
-
         async function isExistsTable(tableName: string): Promise<boolean> {
           const result: any = await db.getAllAsync(`
                     SELECT * FROM sqlite_master WHERE type='table' AND name='${tableName}'
                     `);
-
-                    console.log('result:', result[1])
-                    console.log('tableName:', tableName)
           return result.length > 0;
         }
+        if(!await isExistsTable("hit_test_data")) {
+            await db.execAsync(`
+                CREATE TABLE IF NOT EXISTS hit_test_data (
+                id INTEGER PRIMARY KEY AUTOINCREMENT
+                , date TEXT NOT NULL
+                , time TEXT NOT NULL
+                , first BOOLEAN DEFAULT NULL
+                , second BOOLEAN DEFAULT NULL
+                , third BOOLEAN DEFAULT NULL
+                , fourth BOOLEAN DEFAULT NULL
+                )`);
+            console.log("Hit test data table created.");
+        } else {
+            console.log("Hit test data table already exists.");
+        }
 
-        const positionTableExists = await isExistsTable("position");
-        console.log(positionTableExists)
-        if (!positionTableExists) {
+        if (!await isExistsTable("position")) {
           await db.execAsync(`
                 CREATE TABLE IF NOT EXISTS position (
                 id INTEGER PRIMARY KEY
                 , position TEXT NOT NULL
                 );`);
 
-          console.log("Position table created or already exists.");
+          console.log("Position table created.");
 
-        //   await db.execAsync(`
-        //         INSERT INTO position (id, position) VALUES (102, '大前'), (200, '二的'), (300, '中'), (400, '落前'), (500, '落')
-        //     `)
-            const positionList = await db.getAllAsync(`
-                SELECT * FROM position
-            `);
-            console.log('positionList:', positionList)
-
+          await db.execAsync(`
+                INSERT INTO position (id, position) VALUES (1, '大前'), (2, '二的'), (3, '中'), (4, '落前'), (5, '落')
+            `)
+        } else{
+            console.log("Position table already exists.");
         }
 
-        // -----------------
-          const sqliteMaster = await db.getAllAsync(
-                'SELECT * FROM sqlite_master'
-            )
-            console.log('sqliteMaster:', sqliteMaster)
-        // -----------------
 
         setTimeout(() => {
           setIsSetting(false);
           navigation.navigate("Input");
+          db.closeAsync();
         }, 500);
       } catch (e) {
-        console.error("Error creating hit test data table:", e);
+        console.error("Error initial setup:", e);
       }
     }
 
