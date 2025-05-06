@@ -30,6 +30,7 @@ const styles: { hitResultBaseContainer: ViewStyle } = {
     justifyContent: "space-around",
     alignItems: "center",
     borderBottomWidth: 1,
+    padding: 15,
   },
 };
 

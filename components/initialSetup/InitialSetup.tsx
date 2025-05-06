@@ -14,6 +14,8 @@ export default () => {
   const [isSetting, setIsSetting] = useState<boolean>(true);
   const navigation = useNavigation<any>();
 
+  
+
   useEffect(() => {
     async function createHitTestDataTable() {
       try {

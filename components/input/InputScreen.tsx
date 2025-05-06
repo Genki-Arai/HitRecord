@@ -12,22 +12,23 @@ import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { HitDataType } from "../commonTypes/types";
 import defaultHitData from "../commonTypes/defaultHitData";
-import * as SQLite from 'expo-sqlite';
+import * as SQLite from "expo-sqlite";
 
 export default function InputScreen() {
-    const [dataList, setDataList] = useState<HitDataType[]>([]);
-    const [dataNum, setDataNum] = useState<number>(dataList.length);
+  const [dataList, setDataList] = useState<HitDataType[]>([]);
+  const [dataNum, setDataNum] = useState<number>(dataList.length);
+
+  console.log(new Date().toTimeString());
 
   const addDataNum = () => {
     setDataNum(dataNum + 1);
-  }
+  };
 
   const subtractDataNum = () => {
-    if(confirm('本当に削除しますか？')){
-        
+    if (confirm("本当に削除しますか？")) {
     }
-  }
-// -----------DBテスト--------------------------
+  };
+  // -----------DBテスト--------------------------
   useEffect(() => {
     // async function insertData() {
     //     const db = SQLite.openDatabaseAsync('test.db');
@@ -47,26 +48,27 @@ export default function InputScreen() {
     // }
     // insertData();
     async function insertData() {
-        try {
-            const db = await SQLite.openDatabaseAsync('test.db');
-            await db.execAsync(`PRAGMA journal_mode = WAL;`);
-           
-            const rows: HitDataType[] = await db.getAllAsync('SELECT * FROM hit_test_data');
-            
-            if(rows.length === 0) {
-                setDataList([defaultHitData]);
-            } else {
-                setDataList(rows);
-            }
-        } catch (error) {
-            console.error('Transaction Error:', error);
+      try {
+        const db = await SQLite.openDatabaseAsync("test.db");
+        await db.execAsync(`PRAGMA journal_mode = WAL;`);
+
+        const rows: HitDataType[] = await db.getAllAsync(
+          "SELECT * FROM hit_test_data"
+        );
+        console.log("rows length:", rows.length);
+        if (rows.length === 0) {
+          setDataList([defaultHitData]);
+        } else {
+          setDataList(rows);
         }
+      } catch (error) {
+        console.error("Transaction Error:", error);
+      }
     }
     insertData();
   }, []);
 
-// ---------------------------------------------
-
+  // ---------------------------------------------
 
   return (
     <ScrollView>
@@ -75,7 +77,7 @@ export default function InputScreen() {
       {(function () {
         const hitResultBaseList = [];
         for (let i = 0; i < dataNum; i++) {
-            // first={dataList[i].first}から変更している（現状）
+          // first={dataList[i].first}から変更している（現状）
           hitResultBaseList.push(<InputHitBase key={i} first={true} />);
         }
         return hitResultBaseList;
