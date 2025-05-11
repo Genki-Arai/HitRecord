@@ -7,18 +7,20 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import InputHitBase from "./HitResultBase";
-import { useEffect, useState } from "react";
+import HitResultBase from "./HitResultBase";
+import { ReactElement, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { HitDataType } from "../commonTypes/types";
 import defaultHitData from "../commonTypes/defaultHitData";
 import * as SQLite from "expo-sqlite";
+import { insertSampleHitData } from "../database/hitDataControl";
+import InputMain from "./InputMain";
 
 export default function InputScreen() {
   const [dataList, setDataList] = useState<HitDataType[]>([]);
   const [dataNum, setDataNum] = useState<number>(dataList.length);
 
-  console.log(new Date().toTimeString());
+  console.log(new Date().getTime().toString());
 
   const addDataNum = () => {
     setDataNum(dataNum + 1);
@@ -69,24 +71,75 @@ export default function InputScreen() {
   }, []);
 
   // ---------------------------------------------
+  const sampleHitData: HitDataType[] = [
+    {
+      date: new Date().getDate().toString(),
+      time: new Date().getTime().toString(),
+      first: true,
+      second: false,
+      third: true,
+      fourth: false,
+    },
+    {
+      date: new Date(2025,1,31).getDate().toString(),
+      time: new Date().getTime().toString(),
+      first: true,
+      second: true,
+      third: true,
+      fourth: true,
+    },
+    {
+      date: new Date(2025,1,31).getDate().toString(),
+      time: new Date().getTime().toString(),
+      first: true,
+      second: true,
+      third: true,
+      fourth: false,
+    },
+    {
+      date: new Date().getDate().toString(),
+      time: new Date().getTime().toString(),
+      first: false,
+      second: false,
+      third: true,
+      fourth: false,
+    },
+  ]
 
   return (
     <ScrollView>
       <Text>インプット画面</Text>
 
       {(function () {
-        const hitResultBaseList = [];
-        for (let i = 0; i < dataNum; i++) {
-          // first={dataList[i].first}から変更している（現状）
-          hitResultBaseList.push(<InputHitBase key={i} first={true} />);
-        }
+        const hitResultBaseList: ReactElement[] = [];
+        // for (let i = 0; i < dataNum; i++) {
+        //   // first={dataList[i].first}から変更している（現状）
+        //   hitResultBaseList.push(<HitResultBase key={i} first={true} />);
+        // }
+        dataList.forEach((data, index) => {
+          hitResultBaseList.push(
+            <HitResultBase
+              key={index}
+              first={data.first}
+              second={data.second}
+              third={data.third}
+              fourth={data.fourth}
+            />
+          )
+        });
         return hitResultBaseList;
       })()}
+      
+      <InputMain hitDataList={dataList} />
+
       <TouchableOpacity
         onPress={() => setDataNum(dataNum + 1)}
         style={styles.addButton}
       >
         <Ionicons name="add" size={24} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity style={{backgroundColor: '#38a1db'}} onPress={() => insertSampleHitData(sampleHitData)}>
+        <Text>サンプルデータを挿入</Text>
       </TouchableOpacity>
     </ScrollView>
   );

@@ -6,9 +6,9 @@ import { HitDataType, HitType } from "../commonTypes/types";
 // export default (props: HitDataType) => {
 export default (props: HitResultBaseProps) => {
   const [firstHit, setFirstHit] = useState<HitType>(props.first ? props.first : null);
-  const [secondHit, setSecondHit] = useState<HitType>(null);
-  const [thirdHit, setThirdHit] = useState<HitType>(null);
-  const [fourthHit, setFourthHit] = useState<HitType>(null);
+  const [secondHit, setSecondHit] = useState<HitType>(props.second ? props.second : null);
+  const [thirdHit, setThirdHit] = useState<HitType>(props.third ? props.third : null);
+  const [fourthHit, setFourthHit] = useState<HitType>(props.fourth ? props.fourth : null);
 
   useEffect(() => {
     
@@ -31,6 +31,7 @@ const styles: { hitResultBaseContainer: ViewStyle } = {
     alignItems: "center",
     borderBottomWidth: 1,
     padding: 15,
+    marginHorizontal: 10,
   },
 };
 
