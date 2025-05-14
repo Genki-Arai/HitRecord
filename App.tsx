@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import ScreenNavi from "./components/navi/ScreenNavi";
+import ScreenNavi from "./components/navi/TabScreenNavi";
 import TopPage from "./components/practice/TopPage";
 import BottomTabTopPage from "./components/practice/BottomTabTopPage";
 import DrawerTopPage from "./components/practice/DrawerTopPage";

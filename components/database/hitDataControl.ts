@@ -1,5 +1,5 @@
 import { openDatabaseAsync } from "expo-sqlite";
-import { HitDataType } from "../commonTypes/types";
+import { HitDataType, HitDataType2, HitType2 } from "../commonTypes/types";
 
 export const insertSampleHitData = async (hitData: HitDataType[]) => {
   try {
@@ -26,3 +26,63 @@ export const insertSampleHitData = async (hitData: HitDataType[]) => {
     console.error("Error inserting sample hit data:", error);
   }
 };
+
+export const insertSampleHitData2 = async (hitData: HitDataType2[]) => {
+  try {
+    const db = await openDatabaseAsync("test.db");
+    await db.execAsync(`PRAGMA journal_mode = WAL;`);
+
+    // Check if the table exists
+    const result: any = await db.getAllAsync(`
+        SELECT * FROM sqlite_master WHERE type='table' AND name='hitdata_test_table'
+        `);
+
+    if (result.length > 0) {
+      // Table exists, insert data
+      for (const data of hitData) {
+        await db.execAsync(
+          `INSERT INTO hitdata_test_table (year, month, date, time, first, second, third, fourth) VALUES (${data.year}, ${data.month}, ${data.date}, '${data.time}', ${data.first}, ${data.second}, ${data.third}, ${data.fourth})`
+        );
+      }
+      console.log("Sample hit data inserted.");
+    } else {
+      console.log("Table does not exist.");
+    }
+  } catch (error) {
+    console.error("Error inserting sample hit data:", error);
+  }
+};
+
+export type hitDataTypeWithDate = {
+  date: string;
+  hitDataList: HitDataType2[];
+};
+
+export const pickOutDate = (hitDataList: HitDataType2[]): string[] => {
+  return [
+    ...new Set(
+      hitDataList.map(
+        (hitdata) => `${hitdata.year}/${hitdata.month}/${hitdata.date}`
+      )
+    ),
+  ];
+};
+
+export const sortByDate = (hitDataList: HitDataType2[]):hitDataTypeWithDate[] => {
+  const dateList = pickOutDate(hitDataList);
+  const newHitDataList: hitDataTypeWithDate[] = [];
+  for (const date of dateList) {
+    newHitDataList.push({
+      date: date,
+      hitDataList: [],
+    });
+    hitDataList.forEach((hitdata) => {
+      if (`${hitdata.year}/${hitdata.month}/${hitdata.date}` == date) {
+        newHitDataList[newHitDataList.length - 1].hitDataList.push(hitdata);
+      }
+    });
+  }
+  console.log("newHitDataList:", newHitDataList);
+  return newHitDataList;
+};
+

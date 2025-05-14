@@ -27,20 +27,24 @@ export default () => {
                     `);
           return result.length > 0;
         }
-        if(!await isExistsTable("hit_test_data")) {
+        if(!await isExistsTable("hitdata_test_table")) {
             await db.execAsync(`
-                CREATE TABLE IF NOT EXISTS hit_test_data (
+                CREATE TABLE IF NOT EXISTS hitdata_test_table (
                 id INTEGER PRIMARY KEY AUTOINCREMENT
-                , date TEXT NOT NULL
+                , year INTEGER NOT NULL
+                , month INTEGER NOT NULL
+                , date INTEGER NOT NULL
                 , time TEXT NOT NULL
                 , first BOOLEAN DEFAULT NULL
                 , second BOOLEAN DEFAULT NULL
                 , third BOOLEAN DEFAULT NULL
                 , fourth BOOLEAN DEFAULT NULL
+                , position_id INTEGER DEFAULT NULL
+                , place_id INTEGER DEFAULT NULL
                 )`);
-            console.log("Hit test data table created.");
+            console.log("Hit data test table created.");
         } else {
-            console.log("Hit test data table already exists.");
+            console.log("Hit data test table already exists.");
         }
 
         if (!await isExistsTable("position")) {

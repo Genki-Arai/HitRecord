@@ -8,9 +8,12 @@ import MemoScreen from "../memo/MemoScreen";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import NavigationBar from "./NavigationBar";
 import InitialSetup from "../initialSetup/InitialSetup";
+import { createStackNavigator } from "@react-navigation/stack";
+import InputMain from "../input/InputMain";
 
 export default function ScreenNavi() {
   const Tab = createBottomTabNavigator();
+  const Stack = createStackNavigator();
 
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
@@ -20,7 +23,8 @@ export default function ScreenNavi() {
           screenOptions={{ tabBarStyle: { display: "none" }, headerShown: false }}
         >
           <Tab.Screen name="InitialSetup" component={InitialSetup} options={{}} />
-          <Tab.Screen name="Input" component={InputScreen} />
+          <Tab.Screen name="Input" component={InputMain} />
+          {/* <Tab.Screen name="Input" component={InputScreen} /> */}
           <Tab.Screen name="Memo" component={MemoScreen} />
         </Tab.Navigator>
         <NavigationBar />

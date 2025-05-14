@@ -17,7 +17,7 @@ import { insertSampleHitData } from "../database/hitDataControl";
 import InputMain from "./InputMain";
 
 export default function InputScreen() {
-  const [dataList, setDataList] = useState<HitDataType[]>([]);
+  const [dataList, setDataList] = useState<any[]>([]);
   const [dataNum, setDataNum] = useState<number>(dataList.length);
 
   console.log(new Date().getTime().toString());
@@ -130,7 +130,7 @@ export default function InputScreen() {
         return hitResultBaseList;
       })()}
       
-      <InputMain hitDataList={dataList} />
+      
 
       <TouchableOpacity
         onPress={() => setDataNum(dataNum + 1)}

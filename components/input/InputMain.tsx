@@ -1,40 +1,66 @@
-import { ReactElement } from "react";
-import { HitDataType } from "../commonTypes/types";
+import { ReactElement, useEffect, useState } from "react";
+import { HitDataType, HitDataType2 } from "../commonTypes/types";
 import HitResultBase from "./HitResultBase";
-import { View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View, ViewStyle } from "react-native";
+import { openDatabaseAsync } from "expo-sqlite";
+import * as SQLite from "expo-sqlite";
+import defaultHitData, { defaultHitData2, sampleHitData, sampleHitDataList } from "../commonTypes/defaultHitData";
+import { hitDataTypeWithDate, insertSampleHitData2, sortByDate } from "../database/hitDataControl";
+import ShowDateHitResult from "./ShowDateHitResult";
 
-type InputMainProps = {
-    hitDataList: HitDataType[];
-}
+export default () => {
 
-export default (props: InputMainProps) => {
+    const [allHitDataList, setAllHitDataList] = useState<hitDataTypeWithDate[]>(sampleHitDataList);
 
-    const dateList: string[] = props.hitDataList ? [...new Set(props.hitDataList.map((hitdata) => hitdata.date))] : [];
+    useEffect(() => {
+        const getAllHitData = async () => {
+            try {
+                const db = await SQLite.openDatabaseAsync("test.db"); // await無いとexecAsyncが出てこない
+                db.execAsync(`PRAGMA journal_mode = WAL;`);
+                
+                const datas: HitDataType2[] = await db.getAllAsync(
+                    "SELECT * FROM hitdata_test_table ORDER BY year DESC, month DESC, date DESC"
+                );
+                if (datas.length > 1) {
+                    setAllHitDataList(sortByDate(datas));
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        getAllHitData();
+    }, []);
+
+    
 
     return (
-        <View style={{ backgroundColor: 'lightyellow' }}>
+        <ScrollView style={styles.container}>
             {function () {
-                console.log("dateList", dateList);
-                console.log("hitDataList", props.hitDataList);
                 const hitDataList: ReactElement[] = [];
-                dateList.forEach((date, dateIndex) => {
-                    props.hitDataList.forEach((hitdata, hitdataIndex) => {
-                        if(hitdata.date == date) {
-                            hitDataList.push(
-                                <HitResultBase
-                                    key={`${dateIndex}-${hitdataIndex}`}
-                                    first={hitdata.first}
-                                    second={hitdata.second}
-                                    third={hitdata.third}
-                                    fourth={hitdata.fourth}
-                                />
-                            )
-                        }
-                    })
+                allHitDataList.forEach((hitData: hitDataTypeWithDate, index: number) => {
+                    hitDataList.push(
+                        <ShowDateHitResult hitDataList={hitData} key={index} />
+                    )
                 })
+                
                 return hitDataList;
             }()}
-            
-        </View>
+            <TouchableOpacity onPress={() => insertSampleHitData2(sampleHitData)}>
+                <Text style={{ fontSize: 20, textAlign: "center", marginVertical: 10 }}>データを追加</Text>
+            </TouchableOpacity>
+        </ScrollView>
     )
+}
+
+type InputMainStyle = {
+    container: ViewStyle;
+}
+
+const styles: InputMainStyle = {
+    container: {
+        flex: 1,
+        backgroundColor: "lightyellow",
+        width: "100%",
+    }
 }
