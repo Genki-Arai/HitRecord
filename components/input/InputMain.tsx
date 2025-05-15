@@ -1,35 +1,27 @@
 import { ReactElement, useEffect, useState } from "react";
-import { HitDataType, HitDataType2 } from "../commonTypes/types";
+import { HitDataType, HitDataType2, hitDataTypeWithDate, hitDataTypeWithMonth } from "../commonTypes/types";
 import HitResultBase from "./HitResultBase";
 import { ScrollView, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { openDatabaseAsync } from "expo-sqlite";
 import * as SQLite from "expo-sqlite";
 import defaultHitData, { defaultHitData2, sampleHitData, sampleHitDataList } from "../commonTypes/defaultHitData";
-import { hitDataTypeWithDate, insertSampleHitData2, sortByDate } from "../database/hitDataControl";
-import ShowDateHitResult from "./ShowDateHitResult";
+import { getAllHitData, sortByDate, sortByMonth } from "../database/hitDataControl";
+import HitResultByDate from "./HitResultByDate";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import HitResultByMonth from "./HitResultByMonth";
 
 export default () => {
 
-    const [allHitDataList, setAllHitDataList] = useState<hitDataTypeWithDate[]>(sampleHitDataList);
+    const [allHitDataList, setAllHitDataList] = useState<hitDataTypeWithMonth[]>([]);
 
     useEffect(() => {
-        const getAllHitData = async () => {
-            try {
-                const db = await SQLite.openDatabaseAsync("test.db"); // await無いとexecAsyncが出てこない
-                db.execAsync(`PRAGMA journal_mode = WAL;`);
-                
-                const datas: HitDataType2[] = await db.getAllAsync(
-                    "SELECT * FROM hitdata_test_table ORDER BY year DESC, month DESC, date DESC"
-                );
-                if (datas.length > 1) {
-                    setAllHitDataList(sortByDate(datas));
-                }
-            } catch (error) {
-                console.error(error);
+        (async () => {
+            const dataList = await getAllHitData();
+            if (dataList) {
+                const dataListByMonth = sortByMonth(dataList)
+                setAllHitDataList(dataListByMonth);
             }
-        };
-
-        getAllHitData();
+        })();
     }, []);
 
     
@@ -38,17 +30,15 @@ export default () => {
         <ScrollView style={styles.container}>
             {function () {
                 const hitDataList: ReactElement[] = [];
-                allHitDataList.forEach((hitData: hitDataTypeWithDate, index: number) => {
+                allHitDataList.forEach((hitData: hitDataTypeWithMonth, index: number) => {
                     hitDataList.push(
-                        <ShowDateHitResult hitDataList={hitData} key={index} />
+                        <HitResultByMonth month={hitData.month} hitDataList={hitData.hitDataList} key={index} />
                     )
                 })
                 
                 return hitDataList;
             }()}
-            <TouchableOpacity onPress={() => insertSampleHitData2(sampleHitData)}>
-                <Text style={{ fontSize: 20, textAlign: "center", marginVertical: 10 }}>データを追加</Text>
-            </TouchableOpacity>
+            
         </ScrollView>
     )
 }

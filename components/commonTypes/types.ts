@@ -29,3 +29,13 @@ export type HitDataType2 = {
 
 export type HitType = boolean | null;
 export type HitType2 = 1 | 0 | null;
+
+export type hitDataTypeWithDate = {
+  date: string;
+  hitDataList: HitDataType2[];
+};
+
+export type hitDataTypeWithMonth = {
+    month: string;
+    hitDataList: HitDataType2[];
+}

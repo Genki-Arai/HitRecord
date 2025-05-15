@@ -1,5 +1,12 @@
 import { openDatabaseAsync } from "expo-sqlite";
-import { HitDataType, HitDataType2, HitType2 } from "../commonTypes/types";
+import {
+  HitDataType,
+  HitDataType2,
+  hitDataTypeWithDate,
+  hitDataTypeWithMonth,
+  HitType2,
+} from "../commonTypes/types";
+import { createSampleHitData } from "../commonTypes/defaultHitData";
 
 export const insertSampleHitData = async (hitData: HitDataType[]) => {
   try {
@@ -53,9 +60,21 @@ export const insertSampleHitData2 = async (hitData: HitDataType2[]) => {
   }
 };
 
-export type hitDataTypeWithDate = {
-  date: string;
-  hitDataList: HitDataType2[];
+export const getAllHitData = async () => {
+  try {
+    const db = await openDatabaseAsync("test.db");
+    db.execAsync(`PRAGMA journal_mode = WAL;`);
+
+    const datas: HitDataType2[] = await db.getAllAsync(
+      "SELECT * FROM hitdata_test_table ORDER BY year DESC, month DESC, date DESC"
+    );
+    if (datas.length > 1) {
+      return datas;
+    }
+    return createSampleHitData();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const pickOutDate = (hitDataList: HitDataType2[]): string[] => {
@@ -68,7 +87,9 @@ export const pickOutDate = (hitDataList: HitDataType2[]): string[] => {
   ];
 };
 
-export const sortByDate = (hitDataList: HitDataType2[]):hitDataTypeWithDate[] => {
+export const sortByDate = (
+  hitDataList: HitDataType2[]
+): hitDataTypeWithDate[] => {
   const dateList = pickOutDate(hitDataList);
   const newHitDataList: hitDataTypeWithDate[] = [];
   for (const date of dateList) {
@@ -86,3 +107,24 @@ export const sortByDate = (hitDataList: HitDataType2[]):hitDataTypeWithDate[] =>
   return newHitDataList;
 };
 
+export const sortByMonth = (hitDataList: HitDataType2[]): hitDataTypeWithMonth[] => {
+  const monthList = [
+    ...new Set(
+      hitDataList.map((hitdata) => `${hitdata.year}/${hitdata.month}`)
+    ),
+  ];
+  const newHitDataList: hitDataTypeWithMonth[] = [];
+  for (const month of monthList) {
+    newHitDataList.push({
+      month: month,
+      hitDataList: [],
+    });
+    hitDataList.forEach((hitdata) => {
+      if (`${hitdata.year}/${hitdata.month}` == month) {
+        newHitDataList[newHitDataList.length - 1].hitDataList.push(hitdata);
+      }
+    });
+  }
+  console.log("newHitDataList:", newHitDataList);
+  return newHitDataList;
+};
