@@ -1,5 +1,10 @@
 import { HitDataType, HitDataType2, hitDataTypeWithDate } from "./types";
 
+/**
+ * サンプルの的中データ追加用
+ * データベースのカラムの構成を変更したため不要。
+ * InputScreen.txtで使用あり。
+ */
 const defaultHitData: HitDataType = {
   date: new Date().toLocaleDateString(),
   time: new Date().toLocaleTimeString(),
@@ -9,6 +14,9 @@ const defaultHitData: HitDataType = {
   fourth: null,
 };
 
+/**
+ * サンプルの的中データ データベースに追加用
+ */
 export const defaultHitData2: HitDataType2 = {
   id: 0,
   year: new Date().getFullYear(),
@@ -23,6 +31,10 @@ export const defaultHitData2: HitDataType2 = {
   placeId: null,
 };
 
+/**
+ * サンプルの的中データ
+ * データベースに追加用
+ */
 export const sampleHitDataList: hitDataTypeWithDate[] = [
   {
     date: "2023/11/1",

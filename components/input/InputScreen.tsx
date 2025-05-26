@@ -13,8 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { HitDataType } from "../commonTypes/types";
 import defaultHitData from "../commonTypes/defaultHitData";
 import * as SQLite from "expo-sqlite";
-import { insertSampleHitData } from "../database/hitDataControl";
-import InputMain from "./InputMain";
 
 export default function InputScreen() {
   const [dataList, setDataList] = useState<any[]>([]);
@@ -138,9 +136,9 @@ export default function InputScreen() {
       >
         <Ionicons name="add" size={24} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity style={{backgroundColor: '#38a1db'}} onPress={() => insertSampleHitData(sampleHitData)}>
+      {/* <TouchableOpacity style={{backgroundColor: '#38a1db'}} onPress={() => insertSampleHitData(sampleHitData)}>
         <Text>サンプルデータを挿入</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ScrollView>
   );
 }

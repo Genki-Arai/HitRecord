@@ -2,6 +2,8 @@ import { Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { HitDataType2, hitDataTypeWithDate } from "../commonTypes/types";
 import HitResultBase from "./HitResultBase";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "./EditHitDataOfDate";
 
 export default (props: hitDataTypeWithDate) => {
   const getNumberOfShots = (hitData: HitDataType2[]): number => {
@@ -26,11 +28,27 @@ export default (props: hitDataTypeWithDate) => {
     return numberOfHits;
   };
 
-  const navigation = useNavigation();
+  type EditHitDataOfDateNaviProps = StackNavigationProp<RootStackParamList, 'HitResultByDate'>;
+  // const navigation = useNavigation<EditHitDataOfDateNaviProps>();
+  const navigation = useNavigation<any>();
+
+  // const gotoHitResult = () => {
+  //   navigation.navigate('EditHitDataOfDate', {
+  //     date: props.date,
+  //     hitDataList: props.hitDataList,
+  //   })
+  // }
+  const gotoHitResult = () => {
+    console.log("gotoHitResult", props.date, props.hitDataList);
+    navigation.navigate('Input', { screen: 'EditHitDataOfDate', params: {
+      date: props.date,
+      hitDataList: props.hitDataList,
+    }})
+  }
 
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={gotoHitResult}>
       <Text>{props.date}</Text>
       <View>
         <Text>

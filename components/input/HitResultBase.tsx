@@ -2,9 +2,12 @@ import { View, ViewStyle } from "react-native";
 import HitResult from "./HitResult";
 import { useEffect, useState } from "react";
 import { HitDataType, HitType, HitType2 } from "../commonTypes/types";
+import { useRoute } from "@react-navigation/native";
 
 // export default (props: HitDataType) => {
 export default (props: HitResultBaseProps2) => {
+
+
   const [firstHit, setFirstHit] = useState<HitType2>(props.first);
   const [secondHit, setSecondHit] = useState<HitType2>(props.second);
   const [thirdHit, setThirdHit] = useState<HitType2>(props.third);

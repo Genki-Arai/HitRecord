@@ -10,6 +10,7 @@ import NavigationBar from "./NavigationBar";
 import InitialSetup from "../initialSetup/InitialSetup";
 import { createStackNavigator } from "@react-navigation/stack";
 import InputMain from "../input/InputMain";
+import StackInputScreenNavi from "./StackInputScreenNavi";
 
 export default function ScreenNavi() {
   const Tab = createBottomTabNavigator();
@@ -23,7 +24,7 @@ export default function ScreenNavi() {
           screenOptions={{ tabBarStyle: { display: "none" }, headerShown: false }}
         >
           <Tab.Screen name="InitialSetup" component={InitialSetup} options={{}} />
-          <Tab.Screen name="Input" component={InputMain} />
+          <Tab.Screen name="Input" component={StackInputScreenNavi} />
           {/* <Tab.Screen name="Input" component={InputScreen} /> */}
           <Tab.Screen name="Memo" component={MemoScreen} />
         </Tab.Navigator>
