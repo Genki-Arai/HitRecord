@@ -1,14 +1,8 @@
 import { openDatabaseAsync } from "expo-sqlite";
-import {
-  HitDataType,
-  HitDataType2,
-  hitDataTypeWithDate,
-  hitDataTypeWithMonth,
-  HitType2,
-} from "../commonTypes/types";
-import { createSampleHitData } from "../commonTypes/defaultHitData";
-
-
+import { createSampleHitData } from "../../types/defaultHitData";
+import { HitDataType2 } from "../../types/input/HitDataType2";
+import { hitDataTypeWithDate } from "../../types/input/hitDataTypeWithDate";
+import { hitDataTypeWithMonth } from "../../types/input/hitDataTypeWithMonth";
 
 /**
  * 的中データを追加する
@@ -106,7 +100,9 @@ export const sortByDate = (
  * @param hitDataList 的中データの配列
  * @returns 月ごとにまとめた的中データの配列
  */
-export const sortByMonth = (hitDataList: HitDataType2[]): hitDataTypeWithMonth[] => {
+export const sortByMonth = (
+  hitDataList: HitDataType2[]
+): hitDataTypeWithMonth[] => {
   const monthList = [
     ...new Set(
       hitDataList.map((hitdata) => `${hitdata.year}/${hitdata.month}`)

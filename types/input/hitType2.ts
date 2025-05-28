@@ -1,0 +1,1 @@
+export type HitType2 = 1 | 0 | null;

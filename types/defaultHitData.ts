@@ -1,4 +1,6 @@
-import { HitDataType, HitDataType2, hitDataTypeWithDate } from "./types";
+import { HitDataType } from "./input/HitDataType";
+import { HitDataType2 } from "./input/HitDataType2";
+import { hitDataTypeWithDate } from "./input/hitDataTypeWithDate";
 
 /**
  * サンプルの的中データ追加用

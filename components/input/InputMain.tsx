@@ -1,8 +1,9 @@
 import { ReactElement, useEffect, useState } from "react";
-import { hitDataTypeWithMonth } from "../commonTypes/types";
 import { ScrollView, ViewStyle } from "react-native";
 import { getAllHitData, sortByMonth } from "../database/hitDataControl";
 import HitResultByMonth from "./HitResultByMonth";
+import { hitDataTypeWithMonth } from "../../types/input/hitDataTypeWithMonth";
+import { HitRecordColors } from "../../styles/constants/colors/HitRecordColors";
 
 /**
  * すべてのデータを取得し、日付ごとに表示する。
@@ -52,7 +53,7 @@ type InputMainStyle = {
 const styles: InputMainStyle = {
   container: {
     flex: 1,
-    backgroundColor: "lightyellow",
+    backgroundColor: HitRecordColors.background,
     width: "100%",
   },
 };

@@ -10,9 +10,9 @@ import {
 import HitResultBase from "./HitResultBase";
 import { ReactElement, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { HitDataType } from "../commonTypes/types";
-import defaultHitData from "../commonTypes/defaultHitData";
+import defaultHitData, { defaultHitData2 } from "../../types/defaultHitData";
 import * as SQLite from "expo-sqlite";
+import { HitDataType } from "../../types/input/HitDataType";
 
 export default function InputScreen() {
   const [dataList, setDataList] = useState<any[]>([]);
@@ -30,23 +30,7 @@ export default function InputScreen() {
   };
   // -----------DBテスト--------------------------
   useEffect(() => {
-    // async function insertData() {
-    //     const db = SQLite.openDatabaseAsync('test.db');
-
-    //     try {
-    //         await (await db).withTransactionAsync(async (tx) => {
-    //             await tx.executeSqlAsync('PRAGMA journal_mode = WAL;');
-    //             await tx.executeSqlAsync('CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOTNULL');
-    //             await tx.executeSqlAsync('INSERT INTO test (name) VALUES (?)', ['test name 1']);
-    //             await tx.executeSqlAsync('INSERT INTO test (name) VALUES (?)', ['test name 2']);
-    //         })
-    //         const rows = (await db).getAllAsync('SELECT * FROM test');
-    //         console.log('rows:', rows);
-    //     } catch (error) {
-    //         console.error('Transaction Error:', error);
-    //     }
-    // }
-    // insertData();
+    
     async function insertData() {
       try {
         const db = await SQLite.openDatabaseAsync("test.db");
@@ -57,7 +41,7 @@ export default function InputScreen() {
         );
         console.log("rows length:", rows.length);
         if (rows.length === 0) {
-          setDataList([defaultHitData]);
+          setDataList([defaultHitData2]);
         } else {
           setDataList(rows);
         }
@@ -69,40 +53,7 @@ export default function InputScreen() {
   }, []);
 
   // ---------------------------------------------
-  const sampleHitData: HitDataType[] = [
-    {
-      date: new Date().getDate().toString(),
-      time: new Date().getTime().toString(),
-      first: true,
-      second: false,
-      third: true,
-      fourth: false,
-    },
-    {
-      date: new Date(2025,1,31).getDate().toString(),
-      time: new Date().getTime().toString(),
-      first: true,
-      second: true,
-      third: true,
-      fourth: true,
-    },
-    {
-      date: new Date(2025,1,31).getDate().toString(),
-      time: new Date().getTime().toString(),
-      first: true,
-      second: true,
-      third: true,
-      fourth: false,
-    },
-    {
-      date: new Date().getDate().toString(),
-      time: new Date().getTime().toString(),
-      first: false,
-      second: false,
-      third: true,
-      fourth: false,
-    },
-  ]
+ 
 
   return (
     <ScrollView>
@@ -123,12 +74,10 @@ export default function InputScreen() {
               third={data.third}
               fourth={data.fourth}
             />
-          )
+          );
         });
         return hitResultBaseList;
       })()}
-      
-      
 
       <TouchableOpacity
         onPress={() => setDataNum(dataNum + 1)}
