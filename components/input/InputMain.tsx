@@ -1,9 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
 import { ScrollView, ViewStyle } from "react-native";
-import { getAllHitData, sortByMonth } from "../database/hitDataControl";
 import HitResultByMonth from "./HitResultByMonth";
 import { hitDataTypeWithMonth } from "../../types/input/hitDataTypeWithMonth";
 import { HitRecordColors } from "../../styles/constants/colors/HitRecordColors";
+import { getAllHitData } from "../database/selectHitData";
+import { sortByMonth } from "../database/sortHitData";
 
 /**
  * すべてのデータを取得し、日付ごとに表示する。

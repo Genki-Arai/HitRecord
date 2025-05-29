@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
-import { sortByDate } from "../database/hitDataControl";
 import { ReactElement } from "react";
 import HitResultByDate from "./HitResultByDate";
 import { hitDataTypeWithDate } from "../../types/input/hitDataTypeWithDate";
 import { hitDataTypeWithMonth } from "../../types/input/hitDataTypeWithMonth";
-import { hitResultByDateStyles, HitResultByMonthStyles } from "./styles_input/StylesOfInput";
+import { HitResultByMonthStyles } from "./styles_input/StylesOfInput";
+import { sortByDate } from "../database/sortHitData";
 
 export default (props: hitDataTypeWithMonth) => {
   const hitDataList: hitDataTypeWithDate[] = sortByDate(props.hitDataList);
@@ -12,7 +12,8 @@ export default (props: hitDataTypeWithMonth) => {
   return (
     <>
       <View style={HitResultByMonthStyles.monthView}>
-        <Text>{props.month}</Text> {/* ◯年◯月 */}
+        {/* ◯年◯月 */}
+        <Text>{props.month}</Text>
       </View>
       <View>
         {(function () {

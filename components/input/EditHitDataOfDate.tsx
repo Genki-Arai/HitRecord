@@ -22,6 +22,7 @@ export const EditHitDataOfDate: React.FC<EditHitDataOfDateProps> = () => {
           hitDatas.push(
             <HitResultBase
               key={index}
+              id={hitData.id}
               first={hitData.first}
               second={hitData.second}
               third={hitData.third}

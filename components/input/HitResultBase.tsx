@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { HitType } from "../../types/input/HitDataType";
 import { HitType2 } from "../../types/input/hitType2";
 import { HitResultBaseStyles } from "./styles_input/StylesOfInput";
+import { updateHitData } from "../database/updateHitData";
 
 export default (props: HitResultBaseProps2) => {
   const [firstHit, setFirstHit] = useState<HitType2>(props.first);
@@ -11,7 +12,9 @@ export default (props: HitResultBaseProps2) => {
   const [thirdHit, setThirdHit] = useState<HitType2>(props.third);
   const [fourthHit, setFourthHit] = useState<HitType2>(props.fourth);
 
-  useEffect(() => {}, [firstHit, secondHit, thirdHit, fourthHit]);
+  useEffect(() => {
+    updateHitData(props.id || 0, firstHit, secondHit, thirdHit, fourthHit)
+  }, [firstHit, secondHit, thirdHit, fourthHit]);
  
   return (
     <View style={HitResultBaseStyles.hitResultBaseContainer}>
@@ -39,4 +42,5 @@ type HitResultBaseProps2 = {
   second: HitType2;
   third: HitType2;
   fourth: HitType2;
+  id?: number;
 };
