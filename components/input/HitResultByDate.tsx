@@ -24,13 +24,16 @@ export default (props: hitDataTypeWithDate) => {
       style={hitResultByDateStyles.container}
       onPress={gotoHitResult}
     >
-      <Text style={hitResultByDateStyles.text}>{props.date}</Text>
-      <View>
+      <View style={hitResultByDateStyles.dateView}>
+        <Text style={hitResultByDateStyles.text}>{props.date}</Text>
+      </View>
+      <View style={hitResultByDateStyles.dataView}>
         <Text style={hitResultByDateStyles.text}>
-          {getNumberOfHits(props.hitDataList)}/
-          {getNumberOfShots(props.hitDataList)}
+          {getNumberOfShots(props.hitDataList)}射
+          {getNumberOfHits(props.hitDataList)}中
         </Text>
         <Text style={hitResultByDateStyles.text}>
+          的中率
           {Math.floor(
             (getNumberOfHits(props.hitDataList) /
               getNumberOfShots(props.hitDataList)) *

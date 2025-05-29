@@ -18,8 +18,7 @@ export default () => {
     (async () => {
       const dataList = await getAllHitData();
       if (dataList) {
-        const dataListByMonth = sortByMonth(dataList);
-        setAllHitDataList(dataListByMonth);
+        setAllHitDataList(sortByMonth(dataList));
       }
     })();
   }, []);

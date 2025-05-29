@@ -4,14 +4,15 @@ import { ReactElement } from "react";
 import HitResultByDate from "./HitResultByDate";
 import { hitDataTypeWithDate } from "../../types/input/hitDataTypeWithDate";
 import { hitDataTypeWithMonth } from "../../types/input/hitDataTypeWithMonth";
+import { hitResultByDateStyles, HitResultByMonthStyles } from "./styles_input/StylesOfInput";
 
 export default (props: hitDataTypeWithMonth) => {
   const hitDataList: hitDataTypeWithDate[] = sortByDate(props.hitDataList);
 
   return (
     <>
-      <View>
-        <Text>{props.month}</Text>
+      <View style={HitResultByMonthStyles.monthView}>
+        <Text>{props.month}</Text> {/* ◯年◯月 */}
       </View>
       <View>
         {(function () {

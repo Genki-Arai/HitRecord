@@ -4,6 +4,7 @@ export const HitRecordColors = {
     background: "#fff",
     success: "blue",
     danger: "red",
+    gray: "#c0c6c9",
     // primaryLight: "#bb86fc",
     // primaryDark: "#3700b3",
     // secondaryLight: "#b2fef7",

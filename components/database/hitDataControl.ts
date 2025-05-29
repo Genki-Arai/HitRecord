@@ -64,7 +64,7 @@ export const pickOutDate = (hitDataList: HitDataType2[]): string[] => {
   return [
     ...new Set(
       hitDataList.map(
-        (hitdata) => `${hitdata.year}/${hitdata.month}/${hitdata.date}`
+        (hitdata) => `${hitdata.month}/${hitdata.date}`
       )
     ),
   ];
@@ -86,7 +86,7 @@ export const sortByDate = (
       hitDataList: [],
     });
     hitDataList.forEach((hitdata) => {
-      if (`${hitdata.year}/${hitdata.month}/${hitdata.date}` == date) {
+      if (`${hitdata.month}/${hitdata.date}` == date) {
         newHitDataList[newHitDataList.length - 1].hitDataList.push(hitdata);
       }
     });
@@ -105,7 +105,7 @@ export const sortByMonth = (
 ): hitDataTypeWithMonth[] => {
   const monthList = [
     ...new Set(
-      hitDataList.map((hitdata) => `${hitdata.year}/${hitdata.month}`)
+      hitDataList.map((hitdata) => `${hitdata.year}年${hitdata.month}月`)
     ),
   ];
   const newHitDataList: hitDataTypeWithMonth[] = [];
@@ -115,7 +115,7 @@ export const sortByMonth = (
       hitDataList: [],
     });
     hitDataList.forEach((hitdata) => {
-      if (`${hitdata.year}/${hitdata.month}` == month) {
+      if (`${hitdata.year}年${hitdata.month}月` == month) {
         newHitDataList[newHitDataList.length - 1].hitDataList.push(hitdata);
       }
     });
