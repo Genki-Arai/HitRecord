@@ -13,7 +13,7 @@ export default (props: hitDataTypeWithMonth) => {
     <>
       <View style={HitResultByMonthStyles.monthView}>
         {/* ◯年◯月 */}
-        <Text>{props.month}</Text>
+           <Text>{props.month}</Text>
       </View>
       <View>
         {(function () {

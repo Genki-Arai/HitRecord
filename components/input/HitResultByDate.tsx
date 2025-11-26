@@ -7,6 +7,7 @@ import {
 import { hitDataTypeWithDate } from "../../types/input/hitDataTypeWithDate";
 import { EditHitDataOfDateNaviProps } from "../../types/input/navigationTypes";
 import { hitResultByDateStyles } from "./styles_input/StylesOfInput";
+import { format } from "date-fns";
 
 export default (props: hitDataTypeWithDate) => {
   const navigation = useNavigation<EditHitDataOfDateNaviProps>();
@@ -19,13 +20,15 @@ export default (props: hitDataTypeWithDate) => {
     });
   };
 
+  const date = new Date(props.date);
+
   return (
     <TouchableOpacity
       style={hitResultByDateStyles.container}
       onPress={gotoHitResult}
     >
       <View style={hitResultByDateStyles.dateView}>
-        <Text style={hitResultByDateStyles.text}>{props.date}</Text>
+        <Text style={hitResultByDateStyles.text}>{format(date, "M月d日")}</Text>
       </View>
       <View style={hitResultByDateStyles.dataView}>
         <Text style={hitResultByDateStyles.text}>
@@ -33,7 +36,7 @@ export default (props: hitDataTypeWithDate) => {
           {getNumberOfHits(props.hitDataList)}中
         </Text>
         <Text style={hitResultByDateStyles.text}>
-          的中率
+          的中率{"  "}
           {Math.floor(
             (getNumberOfHits(props.hitDataList) /
               getNumberOfShots(props.hitDataList)) *

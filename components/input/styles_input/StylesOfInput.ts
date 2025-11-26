@@ -53,7 +53,8 @@ export const HitResultByMonthStyles: HitResultByMonthStyle = {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start',
-        marginHorizontal: 15,
+        marginHorizontal: 10,
+        padding: 5,
         backgroundColor: HitRecordColors.secondary,
     }
 }

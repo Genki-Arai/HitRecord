@@ -11,7 +11,7 @@ export const pickOutDate = (hitDataList: HitDataType2[]): string[] => {
   return [
     ...new Set(
       hitDataList.map(
-        (hitdata) => `${hitdata.month}/${hitdata.date}`
+        (hitdata) => `${hitdata.year}-${hitdata.month}-${hitdata.date}`
       )
     ),
   ];
@@ -25,7 +25,7 @@ export const pickOutDate = (hitDataList: HitDataType2[]): string[] => {
 export const sortByDate = (
   hitDataList: HitDataType2[]
 ): hitDataTypeWithDate[] => {
-  const dateList = pickOutDate(hitDataList);
+  const dateList: string[] = pickOutDate(hitDataList);
   const newHitDataList: hitDataTypeWithDate[] = [];
   for (const date of dateList) {
     newHitDataList.push({
@@ -33,7 +33,7 @@ export const sortByDate = (
       hitDataList: [],
     });
     hitDataList.forEach((hitdata) => {
-      if (`${hitdata.month}/${hitdata.date}` == date) {
+      if (`${hitdata.year}-${hitdata.month}-${hitdata.date}` == date) {
         newHitDataList[newHitDataList.length - 1].hitDataList.push(hitdata);
       }
     });

@@ -6,6 +6,7 @@ import { InputContext } from "../input/InputContext";
 import { useEffect, useState } from "react";
 import { HitDataType2 } from "../../types/input/HitDataType2";
 import { getAllHitData } from "../database/selectHitData";
+import SampleBottomSheetScreen from "../practice/SampleBottomSheetScreen";
 
 export default () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -31,6 +32,7 @@ export default () => {
         <Stack.Screen name="InputMain" component={InputMain} />
         <Stack.Screen name="EditHitDataOfDate" component={EditHitDataOfDate} />
       </Stack.Navigator>
+      <SampleBottomSheetScreen />
     </InputContext.Provider>
   );
 };

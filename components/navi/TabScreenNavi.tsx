@@ -4,6 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import NavigationBar from "./NavigationBar";
 import InitialSetup from "../initialSetup/InitialSetup";
 import StackInputScreenNavi from "./StackInputScreenNavi";
+import SampleBottomSheetScreen from "../practice/SampleBottomSheetScreen";
 
 export default function ScreenNavi() {
   const Tab = createBottomTabNavigator();
