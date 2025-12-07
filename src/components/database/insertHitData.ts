@@ -1,5 +1,5 @@
 import { openDatabaseAsync } from "expo-sqlite";
-import { HitDataType2 } from "../../types/input/HitDataType2";
+import { HitDataType2 } from "../../../types/input/HitDataType2";
 
 /**
  * 的中データを追加する

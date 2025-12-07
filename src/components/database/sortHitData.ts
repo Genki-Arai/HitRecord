@@ -1,6 +1,6 @@
-import { HitDataType2 } from "../../types/input/HitDataType2";
-import { hitDataTypeWithDate } from "../../types/input/hitDataTypeWithDate";
-import { hitDataTypeWithMonth } from "../../types/input/hitDataTypeWithMonth";
+import { HitDataType2 } from "../../../types/input/HitDataType2";
+import { hitDataTypeWithDate } from "../../../types/input/hitDataTypeWithDate";
+import { hitDataTypeWithMonth } from "../../../types/input/hitDataTypeWithMonth";
 
 /**
  * 的中データから年月日を取得する（重複なし）

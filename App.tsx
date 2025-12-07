@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
-import ScreenNavi from "./components/navi/TabScreenNavi";
+import ScreenNavi from "./src/components/navi/TabScreenNavi";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 // import SampleBottomSheetScreen from "./components/practice/SampleBottomSheetScreen";
 
@@ -15,14 +15,13 @@ export default function App() {
     //   </SafeAreaProvider>
     // </NavigationContainer>
     <GestureHandlerRootView>
+      <NavigationContainer>
+        <ScreenNavi />
 
-    <NavigationContainer>
-      <ScreenNavi />
+        {/* <TopPage /> */}
 
-      {/* <TopPage /> */}
-
-      {/* <DrawerTopPage /> */}
-    </NavigationContainer>
+        {/* <DrawerTopPage /> */}
+      </NavigationContainer>
       {/* <SampleBottomSheetScreen /> */}
     </GestureHandlerRootView>
   );

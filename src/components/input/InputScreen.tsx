@@ -10,9 +10,9 @@ import {
 import HitResultBase from "./HitResultBase";
 import { ReactElement, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import defaultHitData, { defaultHitData2 } from "../../types/defaultHitData";
+import defaultHitData, { defaultHitData2 } from "../../../types/defaultHitData";
 import * as SQLite from "expo-sqlite";
-import { HitDataType } from "../../types/input/HitDataType";
+import { HitDataType } from "../../../types/input/HitDataType";
 
 export default function InputScreen() {
   const [dataList, setDataList] = useState<any[]>([]);
@@ -30,7 +30,6 @@ export default function InputScreen() {
   };
   // -----------DBテスト--------------------------
   useEffect(() => {
-    
     async function insertData() {
       try {
         const db = await SQLite.openDatabaseAsync("test.db");
@@ -53,7 +52,6 @@ export default function InputScreen() {
   }, []);
 
   // ---------------------------------------------
- 
 
   return (
     <ScrollView>

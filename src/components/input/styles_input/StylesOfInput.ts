@@ -1,5 +1,5 @@
 import { TextStyle, TouchableOpacityProps, ViewStyle } from "react-native";
-import { HitRecordColors } from "../../../styles/constants/colors/HitRecordColors";
+import { HitRecordColors } from "../../../../styles/constants/colors/HitRecordColors";
 
 type ShowDateHitDataStyle = {
   container: ViewStyle;

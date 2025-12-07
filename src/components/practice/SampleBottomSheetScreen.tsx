@@ -96,7 +96,7 @@ import {
   ScrollView,
 } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { HitRecordColors } from "../../styles/constants/colors/HitRecordColors";
+import { HitRecordColors } from "../../../styles/constants/colors/HitRecordColors";
 
 export default () => {
   // ref

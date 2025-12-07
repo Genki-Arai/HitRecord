@@ -7,8 +7,8 @@ import {
   ViewStyle,
 } from "react-native";
 import HitResultByMonth from "./HitResultByMonth";
-import { hitDataTypeWithMonth } from "../../types/input/hitDataTypeWithMonth";
-import { HitRecordColors } from "../../styles/constants/colors/HitRecordColors";
+import { hitDataTypeWithMonth } from "../../../types/input/hitDataTypeWithMonth";
+import { HitRecordColors } from "../../../styles/constants/colors/HitRecordColors";
 import { sortByMonth } from "../database/sortHitData";
 import { InputContext } from "./InputContext";
 import SampleBottomSheetScreen from "../practice/SampleBottomSheetScreen";
@@ -32,7 +32,10 @@ export default () => {
   return (
     <View style={styles.container}>
       <View style={styles.addButtonArea}>
-        <TouchableOpacity style={styles.addDataButton} onPress={() => setModalSwitch(true)}>
+        <TouchableOpacity
+          style={styles.addDataButton}
+          onPress={() => setModalSwitch(true)}
+        >
           <Text>追加</Text>
         </TouchableOpacity>
       </View>
@@ -55,8 +58,6 @@ export default () => {
           return hitDataList;
         })()}
       </ScrollView>
-
-       
     </View>
   );
 };
@@ -87,5 +88,5 @@ const styles: InputMainStyle = {
     marginHorizontal: 10,
     marginVertical: 5,
     paddingHorizontal: 10,
-  }
+  },
 };

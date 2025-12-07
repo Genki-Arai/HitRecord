@@ -2,11 +2,11 @@ import React, { ReactElement } from "react";
 import { useRoute } from "@react-navigation/native";
 import { View, Text, ScrollView } from "react-native";
 import HitResultBase from "./HitResultBase";
-import { HitDataType2 } from "../../types/input/HitDataType2";
+import { HitDataType2 } from "../../../types/input/HitDataType2";
 import {
   EditHitDataOfDateProps,
   EditHitDataOfDateRouteProps,
-} from "../../types/input/navigationTypes";
+} from "../../../types/input/navigationTypes";
 import { EditHitDataOfDateStyles } from "./styles_input/StylesOfInput";
 import { format } from "date-fns";
 
@@ -20,7 +20,7 @@ export const EditHitDataOfDate: React.FC<EditHitDataOfDateProps> = () => {
       <View>
         <Text>{format(new Date(date), "M月d日")}</Text>
       </View>
-      <ScrollView style={{backgroundColor: 'white'}}>
+      <ScrollView style={{ backgroundColor: "white" }}>
         {(function () {
           const hitDatas: ReactElement[] = [];
           hitDataList.forEach((hitData: HitDataType2, index: number) => {

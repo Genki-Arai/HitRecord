@@ -1,6 +1,6 @@
 import { openDatabaseAsync } from "expo-sqlite";
-import { HitDataType2 } from "../../types/input/HitDataType2";
-import { createSampleHitData } from "../../types/defaultHitData";
+import { HitDataType2 } from "../../../types/input/HitDataType2";
+import { createSampleHitData } from "../../../types/defaultHitData";
 
 /**
  * 的中データを全て取得する
