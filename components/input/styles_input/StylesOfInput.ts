@@ -7,6 +7,7 @@ type ShowDateHitDataStyle = {
   touchableOpacity?: TouchableOpacityProps;
   dateView?: ViewStyle;
   dataView?: ViewStyle;
+  datasView?: ViewStyle;
 };
 
 export const hitResultByDateStyles: ShowDateHitDataStyle = {
@@ -40,24 +41,24 @@ export const hitResultByDateStyles: ShowDateHitDataStyle = {
     alignItems: "center",
     marginHorizontal: 10,
     backgroundColor: HitRecordColors.background,
-  }
+  },
 };
 
 type HitResultByMonthStyle = {
-    monthView: ViewStyle;
-    monthText?: TextStyle;
-}
+  monthView: ViewStyle;
+  monthText?: TextStyle;
+};
 
 export const HitResultByMonthStyles: HitResultByMonthStyle = {
-    monthView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginHorizontal: 10,
-        padding: 5,
-        backgroundColor: HitRecordColors.secondary,
-    }
-}
+  monthView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginHorizontal: 10,
+    padding: 5,
+    backgroundColor: HitRecordColors.secondary,
+  },
+};
 
 export const HitResultBaseStyles: { hitResultBaseContainer: ViewStyle } = {
   hitResultBaseContainer: {
@@ -73,12 +74,23 @@ export const HitResultBaseStyles: { hitResultBaseContainer: ViewStyle } = {
 };
 
 export const EditHitDataOfDateStyles: ShowDateHitDataStyle = {
-    container: {
-        backgroundColor: HitRecordColors.background,
-        flex: 1,
-        width: "100%",
-    },
-    text: {
-
-    }
-}
+  container: {
+    backgroundColor: HitRecordColors.background,
+    flex: 1,
+    height: "100%",
+    width: "100%",
+  },
+  text: {},
+  datasView: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    // alignItems: "stretch",
+    // borderWidth: 1, // 画面構成に違和感があるため削除
+    backgroundColor: HitRecordColors.background,
+  },
+  dataView: {
+    flex: 1,
+    backgroundColor: HitRecordColors.background,
+  },
+};

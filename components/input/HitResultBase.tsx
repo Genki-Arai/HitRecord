@@ -3,11 +3,12 @@ import HitResult from "./HitResult";
 import { useContext, useEffect, useState } from "react";
 import { HitType } from "../../types/input/HitDataType";
 import { HitType2 } from "../../types/input/hitType2";
-import { HitResultBaseStyles } from "./styles_input/StylesOfInput";
+import { EditHitDataOfDateStyles, HitResultBaseStyles } from "./styles_input/StylesOfInput";
 import { updateHitData } from "../database/updateHitData";
 import { InputContext } from "./InputContext";
+import { Text } from "react-native";
 
-export default (props: HitResultBaseProps2) => {
+export default ({...props}: HitResultBaseProps2) => {
   const [firstHit, setFirstHit] = useState<HitType2>(props.first);
   const [secondHit, setSecondHit] = useState<HitType2>(props.second);
   const [thirdHit, setThirdHit] = useState<HitType2>(props.third);
@@ -19,6 +20,7 @@ export default (props: HitResultBaseProps2) => {
     return null;
   }
   const { allHitDataList, setAllHitDataList } = inputContext;
+  
 
   useEffect(() => {
     updateHitData(props.id || 0, firstHit, secondHit, thirdHit, fourthHit);

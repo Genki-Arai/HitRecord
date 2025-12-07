@@ -30,14 +30,14 @@ export default () => {
   const { allHitDataList } = inputContext;
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.addButtonArea}>
         <TouchableOpacity style={styles.addDataButton} onPress={() => setModalSwitch(true)}>
           <Text>追加</Text>
         </TouchableOpacity>
       </View>
 
-      <>
+      <ScrollView>
         {(function () {
           const hitDataList: ReactElement[] = [];
           sortByMonth(allHitDataList).forEach(
@@ -54,10 +54,10 @@ export default () => {
 
           return hitDataList;
         })()}
-      </>
+      </ScrollView>
 
        
-    </ScrollView>
+    </View>
   );
 };
 
