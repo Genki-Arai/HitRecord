@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MemoScreen from "../memo/MemoScreen";
+import MemoScreen from "../../screens/memo/MemoScreen";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import NavigationBar from "./NavigationBar";
-import InitialSetup from "../initialSetup/InitialSetup";
+import InitialSetup from "../../screens/initialSetup/InitialSetup";
 import StackInputScreenNavi from "./StackInputScreenNavi";
-import SampleBottomSheetScreen from "../practice/SampleBottomSheetScreen";
+import SampleBottomSheetScreen from "../../components/practice/SampleBottomSheetScreen";
 
 export default function ScreenNavi() {
   const Tab = createBottomTabNavigator();
@@ -14,9 +14,16 @@ export default function ScreenNavi() {
       <SafeAreaView style={{ flex: 1 }}>
         <Tab.Navigator
           initialRouteName="InitialSetup"
-          screenOptions={{ tabBarStyle: { display: "none" }, headerShown: false }}
+          screenOptions={{
+            tabBarStyle: { display: "none" },
+            headerShown: false,
+          }}
         >
-          <Tab.Screen name="InitialSetup" component={InitialSetup} options={{}} />
+          <Tab.Screen
+            name="InitialSetup"
+            component={InitialSetup}
+            options={{}}
+          />
           <Tab.Screen name="Input" component={StackInputScreenNavi} />
           <Tab.Screen name="Memo" component={MemoScreen} />
         </Tab.Navigator>

@@ -1,12 +1,12 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { EditHitDataOfDate } from "../input/EditHitDataOfDate";
-import InputMain from "../input/InputMain";
+import { EditHitDataOfDate } from "../../screens/input/EditHitDataOfDate";
+import InputMain from "../../screens/input/InputScreen";
 import { RootStackParamList } from "../../../types/input/navigationTypes";
-import { InputContext } from "../input/InputContext";
+import { InputContext } from "../../screens/input/InputContext";
 import { useEffect, useState } from "react";
 import { HitDataType2 } from "../../../types/input/HitDataType2";
-import { getAllHitData } from "../database/selectHitData";
-import SampleBottomSheetScreen from "../practice/SampleBottomSheetScreen";
+import { getAllHitData } from "../../utils/database/selectHitData";
+import SampleBottomSheetScreen from "../../components/practice/SampleBottomSheetScreen";
 
 export default () => {
   const Stack = createStackNavigator<RootStackParamList>();

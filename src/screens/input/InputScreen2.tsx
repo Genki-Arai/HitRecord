@@ -10,11 +10,11 @@ import {
 import HitResultBase from "./HitResultBase";
 import { ReactElement, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import defaultHitData, { defaultHitData2 } from "../../../types/defaultHitData";
+import defaultHitData, { defaultHitData2 } from "../../types/defaultHitData";
 import * as SQLite from "expo-sqlite";
-import { HitDataType } from "../../../types/input/HitDataType";
+import { HitDataType } from "../../types/input/HitDataType";
 
-export default function InputScreen() {
+export default function InputScreen2() {
   const [dataList, setDataList] = useState<any[]>([]);
   const [dataNum, setDataNum] = useState<number>(dataList.length);
 
@@ -92,7 +92,7 @@ export default function InputScreen() {
 
 const styles: { addButton: ViewStyle } = {
   addButton: {
-    backgroundColor: "#ffd900",
+    backgroundColor: "#d7c459a5",
     padding: 10,
     borderRadius: 5,
     marginHorizontal: "auto",

@@ -7,11 +7,11 @@ import {
   ViewStyle,
 } from "react-native";
 import HitResultByMonth from "./HitResultByMonth";
-import { hitDataTypeWithMonth } from "../../../types/input/hitDataTypeWithMonth";
-import { HitRecordColors } from "../../../styles/constants/colors/HitRecordColors";
-import { sortByMonth } from "../database/sortHitData";
+import { hitDataTypeWithMonth } from "../../types/input/hitDataTypeWithMonth";
+import { HitRecordColors } from "../../styles/constants/colors/HitRecordColors";
+import { sortByMonth } from "../../utils/database/sortHitData";
 import { InputContext } from "./InputContext";
-import SampleBottomSheetScreen from "../practice/SampleBottomSheetScreen";
+import SampleBottomSheetScreen from "../../components/practice/SampleBottomSheetScreen";
 
 /**
  * すべてのデータを取得し、日付ごとに表示する。

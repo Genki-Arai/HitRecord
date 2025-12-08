@@ -1,7 +1,7 @@
 import { openDatabaseAsync } from "expo-sqlite";
-import { HitDataType2 } from "../../../types/input/HitDataType2";
-import { HitType2 } from "../../../types/input/hitType2";
-import { HitType } from "../../../types/input/HitDataType";
+import { HitDataType2 } from "../../types/input/HitDataType2";
+import { HitType2 } from "../../types/input/hitType2";
+import { HitType } from "../../types/input/HitDataType";
 
 export const updateHitData = async (
   id: number,

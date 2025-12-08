@@ -7,7 +7,7 @@ import {
   EditHitDataOfDateProps,
   EditHitDataOfDateRouteProps,
 } from "../../../types/input/navigationTypes";
-import { EditHitDataOfDateStyles } from "./styles_input/StylesOfInput";
+import { EditHitDataOfDateStyles } from "../../styles/input/StylesOfInput";
 import { format } from "date-fns";
 
 export const EditHitDataOfDate: React.FC<EditHitDataOfDateProps> = () => {

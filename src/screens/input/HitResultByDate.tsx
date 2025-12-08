@@ -6,7 +6,7 @@ import {
 } from "../../../methods/input/getNumberOf";
 import { hitDataTypeWithDate } from "../../../types/input/hitDataTypeWithDate";
 import { EditHitDataOfDateNaviProps } from "../../../types/input/navigationTypes";
-import { hitResultByDateStyles } from "./styles_input/StylesOfInput";
+import { hitResultByDateStyles } from "../../styles/input/StylesOfInput";
 import { format } from "date-fns";
 
 export default (props: hitDataTypeWithDate) => {

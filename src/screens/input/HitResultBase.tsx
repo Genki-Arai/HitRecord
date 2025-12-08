@@ -6,8 +6,8 @@ import { HitType2 } from "../../../types/input/hitType2";
 import {
   EditHitDataOfDateStyles,
   HitResultBaseStyles,
-} from "./styles_input/StylesOfInput";
-import { updateHitData } from "../database/updateHitData";
+} from "../../styles/input/StylesOfInput";
+import { updateHitData } from "../../utils/database/updateHitData";
 import { InputContext } from "./InputContext";
 import { Text } from "react-native";
 
