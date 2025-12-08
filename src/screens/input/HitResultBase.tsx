@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import HitResult from "./HitResult";
 import { useContext, useEffect, useState } from "react";
-import { HitType } from "../../../types/input/HitDataType";
-import { HitType2 } from "../../../types/input/hitType2";
+import { HitType } from "../../types/input/HitDataType";
+import { HitType2 } from "../../types/input/hitType2";
 import {
   EditHitDataOfDateStyles,
   HitResultBaseStyles,

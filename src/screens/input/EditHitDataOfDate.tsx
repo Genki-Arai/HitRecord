@@ -2,11 +2,11 @@ import React, { ReactElement } from "react";
 import { useRoute } from "@react-navigation/native";
 import { View, Text, ScrollView } from "react-native";
 import HitResultBase from "./HitResultBase";
-import { HitDataType2 } from "../../../types/input/HitDataType2";
+import { HitDataType2 } from "../../types/input/HitDataType2";
 import {
   EditHitDataOfDateProps,
   EditHitDataOfDateRouteProps,
-} from "../../../types/input/navigationTypes";
+} from "../../types/input/navigationTypes";
 import { EditHitDataOfDateStyles } from "../../styles/input/StylesOfInput";
 import { format } from "date-fns";
 
