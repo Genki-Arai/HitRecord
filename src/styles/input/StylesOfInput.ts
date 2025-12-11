@@ -94,3 +94,45 @@ export const EditHitDataOfDateStyles: ShowDateHitDataStyle = {
     backgroundColor: HitRecordColors.background,
   },
 };
+
+type AddDataStyle = {
+  container?: ViewStyle;
+  inputArea?: ViewStyle;
+  saveButtonArea?: ViewStyle;
+  addItem?: ViewStyle;
+  addItemText?: TextStyle;
+};
+
+export const AddDataAreaStyles: AddDataStyle = {
+  container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: HitRecordColors.background,
+    padding: 20,
+  },
+  saveButtonArea: {
+    backgroundColor: HitRecordColors.secondary,
+    paddingHorizontal: 50,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  addItem: {
+    width: "100%",
+    // flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: HitRecordColors.gray,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginHorizontal: 10,
+    backgroundColor: HitRecordColors.background,
+  },
+  addItemText: {
+    paddingHorizontal: 10,
+    fontSize: 16,
+    color: HitRecordColors.primary,
+  },
+};

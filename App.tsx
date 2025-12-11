@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
-import ScreenNavi from "./src/navigation/navi/TabScreenNavi";
+import ScreenNavi from "./src/navigation/TabScreenNavi";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 // import SampleBottomSheetScreen from "./components/practice/SampleBottomSheetScreen";
 

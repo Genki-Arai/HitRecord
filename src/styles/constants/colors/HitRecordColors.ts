@@ -9,7 +9,7 @@ export const HitRecordColors = {
     // primaryDark: "#3700b3",
     // secondaryLight: "#b2fef7",
     // secondaryDark: "#018786",
-    surface: "#ffffff",
+    surface: "#c5edeca2",
     error: "#b00020",
     onPrimary: "#ffffff",
     onSecondary: "#000000",

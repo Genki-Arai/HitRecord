@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useContext, useMemo, useRef, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -12,6 +12,10 @@ import { HitRecordColors } from "../../styles/constants/colors/HitRecordColors";
 import { sortByMonth } from "../../utils/database/sortHitData";
 import { InputContext } from "./InputContext";
 import SampleBottomSheetScreen from "../../components/practice/SampleBottomSheetScreen";
+import BottomSheetPractice from "../../components/practice/BottomSheetPractice";
+import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheetForAddData from "./BottomSheetForAddData";
+import AddDataButton from "./AddDataButton";
 
 /**
  * すべてのデータを取得し、日付ごとに表示する。
@@ -20,7 +24,16 @@ import SampleBottomSheetScreen from "../../components/practice/SampleBottomSheet
 export default () => {
   const inputContext = useContext(InputContext);
 
-  const [modalSwitch, setModalSwitch] = useState<boolean>(false);
+  // const [modalSwitch, setModalSwitch] = useState<boolean>(false);
+  // データ追加用ボトムシートのref
+  const addDataBottomSheetRef = useRef<BottomSheet>(null);
+  // データ追加用ボトムシートを開く関数
+  const addDataBottomSheetOpen = () => {
+    addDataBottomSheetRef.current?.expand();
+  }
+  const addDataBottomSheetClose = () => {
+    addDataBottomSheetRef.current?.close();
+  }
 
   if (!inputContext) {
     console.error("InputContext is not provided.");
@@ -32,12 +45,14 @@ export default () => {
   return (
     <View style={styles.container}>
       <View style={styles.addButtonArea}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.addDataButton}
-          onPress={() => setModalSwitch(true)}
+          // onPress={() => setModalSwitch(true)}
         >
           <Text>追加</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <AddDataButton addDataBottomSheetOpen={addDataBottomSheetOpen} />
+        {/* <BottomSheetForAddData /> */}
       </View>
 
       <ScrollView>
@@ -58,6 +73,9 @@ export default () => {
           return hitDataList;
         })()}
       </ScrollView>
+      <BottomSheetForAddData 
+      ref={addDataBottomSheetRef} 
+      />
     </View>
   );
 };

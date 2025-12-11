@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MemoScreen from "../../screens/memo/MemoScreen";
+import MemoScreen from "../screens/memo/MemoScreen";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import NavigationBar from "./NavigationBar";
-import InitialSetup from "../../screens/initialSetup/InitialSetup";
+import InitialSetup from "../screens/initialSetup/InitialSetup";
 import StackInputScreenNavi from "./StackInputScreenNavi";
-import SampleBottomSheetScreen from "../../components/practice/SampleBottomSheetScreen";
+import SampleBottomSheetScreen from "../components/practice/SampleBottomSheetScreen";
 
 export default function ScreenNavi() {
   const Tab = createBottomTabNavigator();
