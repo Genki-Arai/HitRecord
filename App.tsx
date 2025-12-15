@@ -1,11 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import ScreenNavi from "./components/navi/ScreenNavi";
-import TopPage from "./components/practice/TopPage";
-import BottomTabTopPage from "./components/practice/BottomTabTopPage";
-import DrawerTopPage from "./components/practice/DrawerTopPage";
+import { StyleSheet } from "react-native";
+import ScreenNavi from "./src/navigation/TabScreenNavi";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+// import SampleBottomSheetScreen from "./components/practice/SampleBottomSheetScreen";
 
 export default function App() {
   console.log("App");
@@ -17,14 +14,16 @@ export default function App() {
     //     </SafeAreaView>
     //   </SafeAreaProvider>
     // </NavigationContainer>
-    <NavigationContainer>
-      
-          <ScreenNavi />
-      
-      {/* <TopPage /> */}
+    <GestureHandlerRootView>
+      <NavigationContainer>
+        <ScreenNavi />
 
-      {/* <DrawerTopPage /> */}
-    </NavigationContainer>
+        {/* <TopPage /> */}
+
+        {/* <DrawerTopPage /> */}
+      </NavigationContainer>
+      {/* <SampleBottomSheetScreen /> */}
+    </GestureHandlerRootView>
   );
 }
 
