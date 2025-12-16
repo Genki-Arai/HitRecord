@@ -11,6 +11,8 @@ import {
 } from "../../types/input/HitDataTypeSimple";
 import AddPosition from "./AddPosition";
 import AddResult from "./AddResult";
+import DropdownPractice from "../../components/practice/DropdownPractice";
+import DropdownModalPractice from "../../components/practice/DropdownModalPractice";
 
 export default forwardRef<BottomSheetMethods>(
   (props, ref: React.ForwardedRef<BottomSheetMethods>) => {
@@ -54,6 +56,7 @@ export default forwardRef<BottomSheetMethods>(
           <AddDate date={addDate} setDate={setAddDate} />
           <AddResult result={addResult} setResult={setAddResult} />
           <AddPosition position={addPosition} setPosition={setAddPosition} />
+          <DropdownModalPractice />
           <TouchableOpacity
             onPress={bottomSheetClose}
             style={AddDataAreaStyles.saveButtonArea}
