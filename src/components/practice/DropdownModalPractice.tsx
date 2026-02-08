@@ -19,7 +19,7 @@ const DropdownModalPractice = () => {
   };
 
   // 2. 項目が選択されたときのコールバック
-  const onSelect = (index: number, value: string) => {
+  const onSelect = (index: string, value: string) => {
     setSelectedItem(value);
     console.log(`選択されたインデックス: ${index}, 値: ${value}`);
   };
@@ -56,8 +56,8 @@ const DropdownModalPractice = () => {
         textStyle={{ fontSize: 0 }} // テキストも表示されないように
         
         // レンダリングスタイル（任意。リストの見た目を調整）
-        renderRow={(option: string, index: number, isSelected: boolean) => (
-          <View style={[styles.dropdownRow, isSelected && { backgroundColor: '#ddd' }]}>
+        renderRow={(option: string, index: string, isSelected: boolean) => (
+          <View key={index} style={[styles.dropdownRow, isSelected && { backgroundColor: '#ddd' }]}>
             <Text style={styles.dropdownRowText}>{option}</Text>
           </View>
         )}

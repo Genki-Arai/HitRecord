@@ -56,7 +56,7 @@ export default forwardRef<BottomSheetMethods>(
           <AddDate date={addDate} setDate={setAddDate} />
           <AddResult result={addResult} setResult={setAddResult} />
           <AddPosition position={addPosition} setPosition={setAddPosition} />
-          <DropdownModalPractice />
+          {/* <DropdownModalPractice /> */}
           <TouchableOpacity
             onPress={bottomSheetClose}
             style={AddDataAreaStyles.saveButtonArea}

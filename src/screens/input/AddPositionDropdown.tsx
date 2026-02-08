@@ -1,45 +1,47 @@
-import { useRef } from "react";
+import { forwardRef, useRef } from "react";
 import { Text, View } from "react-native";
 import ModalDropdown from "react-native-modal-dropdown"
+import { getPosition } from "../../utils/getPosition";
 
-type DropdownModalPracticeProps = {
+type AddPositionDropdownProps = {
     position: number;
     setPosition: (position: number) => void;
 };
 
-export default (props: DropdownModalPracticeProps) => {
-    const dropdownRef = useRef<ModalDropdown>(null);
+export default forwardRef<ModalDropdown, AddPositionDropdownProps>((props, ref) => {
+    
     const positionData = [1, 2, 3, 4, 5];
 
-    const showDropdown = () => {
-        if (dropdownRef.current) {
-            dropdownRef.current.show();
-        }
-    };
+    const closeDropdown = () => {
+        ref && (ref as React.RefObject<ModalDropdown>).current?.hide();
+    }
 
-    const onSelect = (index: number, value: string) => {
-        props.setPosition(positionData[index]);
+    const onSelect = (index: string, value: string) => {
+        const numIndex = parseInt(index, 10);
+        props.setPosition(positionData[numIndex]);
         console.log(`選択されたインデックス: ${index}, 値: ${value}`);
     };
 
     return (
         <ModalDropdown 
-        ref={dropdownRef}
+        ref={ref}
         options={positionData.map(String)}
         onSelect={onSelect}
 
         defaultIndex={-1}
+        dropdownStyle={{ width: "100%", height: 'auto' }}
+        textStyle={{ fontSize: 0 }} // テキストも表示されないように
 
-        renderRow={(option: string, index: number, isSelected: boolean) => (
-          <View 
+        renderRow={(option: string, index: string, isSelected: boolean) => (
+          <View style={{ padding: 10 }} key={option}
         //   style={[styles.dropdownRow, isSelected && { backgroundColor: '#ddd' }]}
           >
             <Text 
             
             // style={styles.dropdownRowText}
-            >{option}</Text>
+            >{getPosition(parseInt(option, 10))}</Text>
           </View>
         )}
         />
     )
-}
+});
