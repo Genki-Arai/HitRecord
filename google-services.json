@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "915946659527",
+    "project_id": "test-hitrecord-app",
+    "storage_bucket": "test-hitrecord-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915946659527:android:4b4b0f5a46e3f7b636a8e2",
+        "android_client_info": {
+          "package_name": "com.ga_appdev.TestHitRecord"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV9QTiLnSyjJA-fr3EtE2XF17OtqwQgFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
