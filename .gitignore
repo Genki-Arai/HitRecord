@@ -42,3 +42,7 @@ yarn-error.*
 # Firebase configuration files
 GoogleService-Info.plist
 google-services.json
+
+# Test files
+src/components/practice/
+src/screens/input/test-firebase/
