@@ -34,3 +34,11 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Expo generated directories
+/android
+/ios
+
+# Firebase configuration files
+GoogleService-Info.plist
+google-services.json
