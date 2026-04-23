@@ -7,6 +7,11 @@ import { useEffect, useState } from "react";
 import { HitDataType2 } from "../types/input/HitDataType2";
 import { getAllHitData } from "../utils/database/selectHitData";
 import SampleBottomSheetScreen from "../components/practice/SampleBottomSheetScreen";
+import GDetailScreen from "../components/practice/geminiScreen/GDetailScreen";
+import GDetailScreen2 from "../components/practice/geminiScreen/GDetailScreen2";
+import GRNGHSample from "../components/practice/geminiScreen/GRNGHSample";
+import GDetailScreen3 from "../components/practice/geminiScreen/GDetailScreen3";
+import InputDataScreen from "../screens/input/InputDataScreen";
 
 export default () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -29,10 +34,12 @@ export default () => {
         initialRouteName="InputMain"
         screenOptions={{ headerShown: false }} // trueだとヘッダー(タイトルバー)を表示する
       >
-        <Stack.Screen name="InputMain" component={InputMain} />
+        <Stack.Screen name="InputMain" component={InputDataScreen} />
+        {/* <Stack.Screen name="InputMain" component={InputDataScreen } /> */}
+        {/* <Stack.Screen name="InputMain" component={InputMain} /> */}
         <Stack.Screen name="EditHitDataOfDate" component={EditHitDataOfDate} />
       </Stack.Navigator>
-      <SampleBottomSheetScreen />
+      {/* <SampleBottomSheetScreen /> */}
     </InputContext.Provider>
   );
 };
