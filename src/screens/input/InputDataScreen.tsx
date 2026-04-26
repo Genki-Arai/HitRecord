@@ -8,7 +8,6 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-// 実際のReactNative環境では以下のライブラリが必要です
 import { 
   GestureHandlerRootView, 
   Gesture, 
@@ -21,9 +20,6 @@ import Animated, {
   runOnJS 
 } from 'react-native-reanimated';
 import { 
-  History, 
-  BarChart3, 
-  PlusCircle, 
   Target as TargetIcon, 
   RotateCcw,
   Save,
