@@ -91,8 +91,9 @@ export default function InputDataScreen() {
       const relY = pageY - (targetLayout.y + targetLayout.h / 2);
 
       const distance = Math.sqrt(relX * relX + relY * relY);
-      const isHit = distance < targetLayout.w / 2;
+      const isHit = distance < TARGET_SIZE / 2;
 
+// 
       setHits((prev) => {
         const next = [...prev];
         next[activeArrowIndex] = isHit;
