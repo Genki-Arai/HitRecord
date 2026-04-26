@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { EditHitDataOfDate } from "../screens/input/EditHitDataOfDate";
-import InputMain from "../screens/input/InputScreen";
+import InputScreen from "../screens/input/InputScreen";
 import { RootStackParamList } from "../types/input/navigationTypes";
 import { InputContext } from "../screens/input/InputContext";
 import { useEffect, useState } from "react";
@@ -29,7 +29,8 @@ export default () => {
         initialRouteName="InputMain"
         screenOptions={{ headerShown: false }} // trueだとヘッダー(タイトルバー)を表示する
       >
-        <Stack.Screen name="InputMain" component={InputDataScreen} />
+        <Stack.Screen name="InputMain" component={InputScreen} />
+        <Stack.Screen name="InputHitData" component={InputDataScreen} />
         <Stack.Screen name="EditHitDataOfDate" component={EditHitDataOfDate} />
       </Stack.Navigator>
       {/* <SampleBottomSheetScreen /> */}
