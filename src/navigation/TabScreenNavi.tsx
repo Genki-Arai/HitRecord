@@ -5,6 +5,7 @@ import NavigationBar from "./NavigationBar";
 import InitialSetup from "../screens/initialSetup/InitialSetup";
 import StackInputScreenNavi from "./StackInputScreenNavi";
 import SampleBottomSheetScreen from "../components/practice/SampleBottomSheetScreen";
+import { LoginScreen } from "../screens/auth/LoginScreen";
 
 export default function ScreenNavi() {
   const Tab = createBottomTabNavigator();
@@ -26,6 +27,7 @@ export default function ScreenNavi() {
           />
           <Tab.Screen name="Input" component={StackInputScreenNavi} />
           <Tab.Screen name="Memo" component={MemoScreen} />
+          <Tab.Screen name="Auth" component={LoginScreen} />
         </Tab.Navigator>
         <NavigationBar />
       </SafeAreaView>
