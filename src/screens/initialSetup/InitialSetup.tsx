@@ -66,7 +66,7 @@ export default () => {
 
         setTimeout(() => {
           setIsSetting(false);
-          navigation.navigate("Input");
+          navigation.navigate("Auth");
           db.closeAsync();
         }, 500);
       } catch (e) {
