@@ -1,12 +1,12 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { EditHitDataOfDate } from "../screens/input/EditHitDataOfDate";
-import InputMain from "../screens/input/InputScreen";
+import InputScreen from "../screens/input/InputScreen";
 import { RootStackParamList } from "../types/input/navigationTypes";
 import { InputContext } from "../screens/input/InputContext";
 import { useEffect, useState } from "react";
 import { HitDataType2 } from "../types/input/HitDataType2";
 import { getAllHitData } from "../utils/database/selectHitData";
-import SampleBottomSheetScreen from "../components/practice/SampleBottomSheetScreen";
+import InputDataScreen from "../screens/input/InputDataScreen";
 
 export default () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -29,10 +29,11 @@ export default () => {
         initialRouteName="InputMain"
         screenOptions={{ headerShown: false }} // trueだとヘッダー(タイトルバー)を表示する
       >
-        <Stack.Screen name="InputMain" component={InputMain} />
+        <Stack.Screen name="InputMain" component={InputScreen} />
+        <Stack.Screen name="InputHitData" component={InputDataScreen} />
         <Stack.Screen name="EditHitDataOfDate" component={EditHitDataOfDate} />
       </Stack.Navigator>
-      <SampleBottomSheetScreen />
+      {/* <SampleBottomSheetScreen /> */}
     </InputContext.Provider>
   );
 };
