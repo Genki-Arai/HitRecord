@@ -6,7 +6,7 @@ export class ShotRepository {
     /**
      * 矢1本の的中結果をローカルDBに保存する
      */
-    static async createShot(shotData: ShotDataType): Promise<number> {
+    static async createShot(shotData: Omit<ShotDataType, "id">): Promise<number> {
         const db = await DatabaseManager.getDatabase();
 
         const result = await db.runAsync(
@@ -33,6 +33,14 @@ export class ShotRepository {
         return await db.getAllAsync(
             `SELECT * FROM shots WHERE round_id = ? AND is_deleted = 0 ORDER BY id ASC`,
             [roundId]
+        );
+    }
+
+    static async updateShot(id: number, result: number, x_coord: number, y_coord: number): Promise<void> {
+        const db = await DatabaseManager.getDatabase();
+        await db.runAsync(
+            `UPDATE shots SET result = ?, x_coord = ?, y_coord = ?, updated_at = datetime('now', 'localtime') WHERE id = ?`,
+            [result, x_coord, y_coord, id]
         );
     }
 }
