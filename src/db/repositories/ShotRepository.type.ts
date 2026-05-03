@@ -1,6 +1,6 @@
 
 export type ShotDataType = {
-    id?: number;
+    id: number;
     round_id: number;
     arrow_id?: number;
     arrow_index?: number;
