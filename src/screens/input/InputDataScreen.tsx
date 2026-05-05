@@ -162,49 +162,7 @@ export default function InputDataScreen() {
               </TouchableOpacity>
             </View>
 
-            {/* 的エリア */}
-            <View
-              style={{
-                backgroundColor: "#dcd3b2",
-                height: SCREEN_WIDTH * 0.95,
-                width: SCREEN_WIDTH * 0.9,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 16,
-              }}
-              ref={targetRef}
-              onLayout={() => setTimeout(measureTarget, 500)}
-            >
-              <View style={styles.blackCircleOuter}>
-                <View style={styles.whiteCircleOuter}>
-                  <View style={styles.blackCircleMiddle}>
-                    <View style={styles.whiteCircleMiddle}>
-                      <View style={styles.blackCircleInner}>
-                        <View style={styles.whiteCircleInner} />
-                      </View>
-                    </View>
-                  </View>
-                </View>
-
-                {/* 矢所プロット (-6の補正込み) */}
-                {arrowPositions.map((pos, idx) => (
-                  <View
-                    key={idx}
-                    style={[
-                      styles.arrowPoint,
-                      {
-                        left: TARGET_SIZE / 2 + pos.x - 6,
-                        top: TARGET_SIZE / 2 + pos.y - 6,
-                        backgroundColor:
-                          pos.index === activeArrowIndex - 1
-                            ? "#FFD700"
-                            : "#2D5A27",
-                      },
-                    ]}
-                  />
-                ))}
-              </View>
-            </View>
+            
 
             <Text style={styles.instruction}>
               {activeArrowIndex < 4
@@ -288,65 +246,6 @@ const styles = StyleSheet.create({
   },
   resetBtn: { flexDirection: "row", alignItems: "center" },
   resetText: { fontSize: 12, color: "#666", marginLeft: 4 },
-  blackCircleOuter: {
-    width: TARGET_SIZE,
-    height: TARGET_SIZE,
-    backgroundColor: "black",
-    borderRadius: TARGET_SIZE / 2,
-    justifyContent: "center",
-    alignItems: "center",
-    // elevation: 4,
-    // shadowColor: "#000",
-    // shadowOpacity: 0.1,
-    // shadowRadius: 8,
-  },
-  blackCircleMiddle: {
-    width: TARGET_SIZE * 0.667,
-    height: TARGET_SIZE * 0.667,
-    borderRadius: (TARGET_SIZE * 0.667) / 2,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "black",
-  },
-  blackCircleInner: {
-    width: TARGET_SIZE * 0.417,
-    height: TARGET_SIZE * 0.417,
-    borderRadius: (TARGET_SIZE * 0.417) / 2,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "black",
-  },
-  whiteCircleOuter: {
-    width: TARGET_SIZE * 0.833,
-    height: TARGET_SIZE * 0.833,
-    borderRadius: (TARGET_SIZE * 0.833) / 2,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  whiteCircleMiddle: {
-    width: TARGET_SIZE * 0.583,
-    height: TARGET_SIZE * 0.583,
-    borderRadius: (TARGET_SIZE * 0.583) / 2,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  whiteCircleInner: {
-    width: TARGET_SIZE * 0.208,
-    height: TARGET_SIZE * 0.208,
-    borderRadius: (TARGET_SIZE * 0.208) / 2,
-    backgroundColor: "white",
-  },
-  arrowPoint: {
-    position: "absolute",
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: "#FFF",
-    zIndex: 10,
-  },
   instruction: {
     fontSize: 14,
     color: "#666",
