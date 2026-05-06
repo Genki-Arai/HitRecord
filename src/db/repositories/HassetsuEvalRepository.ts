@@ -26,7 +26,7 @@ export class HassetsuEvalRepository {
     static async getEvalsByRound(roundId: number): Promise<HassetsuEvalDataType[]> {
         const db = await DatabaseManager.getDatabase();
         return await db.getAllAsync(
-            `SELECT * FROM hassetsu_evals WHERE round_id = ? ORDER BY phase_index ASC`,
+            `SELECT * FROM hassetsu_evals WHERE round_id = ? AND is_deleted = 0 ORDER BY phase_index ASC`,
             [roundId]
         );
     }
@@ -37,7 +37,7 @@ export class HassetsuEvalRepository {
     static async updateEval(id: number, score: number, memo: string): Promise<void> {
         const db = await DatabaseManager.getDatabase();
         await db.runAsync(
-            `UPDATE hassetsu_evals SET score = ?, memo = ? WHERE id = ?`,
+            `UPDATE hassetsu_evals SET score = ?, memo = ?, updated_at = datetime('now') WHERE id = ?`,
             [score, memo, id]
         );
     }

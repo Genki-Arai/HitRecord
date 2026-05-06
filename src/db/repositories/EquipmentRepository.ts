@@ -24,7 +24,7 @@ export class EquipmentRepository {
     static async getActiveEquipments(user_id: string, type: 'bow' | 'arrow' | 'string'): Promise<EquipmentDataType[]> {
         const db = await DatabaseManager.getDatabase();
         return await db.getAllAsync(
-            `SELECT * FROM equipments WHERE user_id = ? AND type = ? AND is_active = 1`,
+            `SELECT * FROM equipments WHERE user_id = ? AND type = ? AND is_active = 1 AND is_deleted = 0`,
             [user_id, type]
         );
     }
@@ -32,7 +32,7 @@ export class EquipmentRepository {
     static async deactivateEquipment(id: number): Promise<void> {
         const db = await DatabaseManager.getDatabase();
         await db.runAsync(
-            `UPDATE equipments SET is_active = 0 WHERE id = ?`,
+            `UPDATE equipments SET is_active = 0, updated_at = datetime('now') WHERE id = ?`,
             [id]
         );
     }

@@ -6,9 +6,11 @@ export type SessionDataType = {
     date: string;
     location?: string;
     weather?: string;
-    note?: string;
+    wind_level?: number;
+    memo?: string;
+    target_distance: string;
+    target_type: string;
     created_at?: string;
     updated_at?: string;
-    is_synced?: number;
     is_deleted?: number;
 }
