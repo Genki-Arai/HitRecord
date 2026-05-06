@@ -17,4 +17,7 @@ export type HassetsuEvalDataType = {
     phase_index: number; // 0〜7
     score?: number;      // 1〜5
     memo?: string;
+    created_at?: string;
+    updated_at?: string;
+    is_deleted?: number; // 0: 有効, 1: 論理削除済み
 }

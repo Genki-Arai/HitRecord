@@ -14,7 +14,7 @@ export class UserRepository {
     static async getUserById(userId: string): Promise<UserDataType | null> {
         const db = await DatabaseManager.getDatabase();
         return await db.getFirstAsync(
-            `SELECT * FROM users WHERE id = ?`,
+            `SELECT * FROM users WHERE id = ? AND is_deleted = 0`,
             [userId]
         );
     }
@@ -34,7 +34,7 @@ export class UserRepository {
         }
 
         await db.runAsync(
-            `UPDATE users SET name = ?, rank = ?, handedness = ? WHERE id = ?`,
+            `UPDATE users SET name = ?, rank = ?, handedness = ?, updated_at = datetime('now') WHERE id = ?`,
             [userData.name ?? null, userData.rank ?? null, userData.handedness ?? null, userId]
         );
     }

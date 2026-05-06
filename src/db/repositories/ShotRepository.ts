@@ -12,14 +12,12 @@ export class ShotRepository {
         const result = await db.runAsync(
             `INSERT INTO shots (
                 round_id,
-                arrow_id,
                 arrow_index,
                 result,
                 x_coord,
-                y_coord,
-                updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))`,
-            [shotData.round_id, shotData.arrow_id ?? null, shotData.arrow_index ?? null, shotData.result, shotData.x_coord, shotData.y_coord]
+                y_coord
+            ) VALUES (?, ?, ?, ?, ?)`,
+            [shotData.round_id, shotData.arrow_index, shotData.result, shotData.x_coord, shotData.y_coord]
         );
 
         return result.lastInsertRowId;
@@ -39,7 +37,7 @@ export class ShotRepository {
     static async updateShot(id: number, result: number, x_coord: number, y_coord: number): Promise<void> {
         const db = await DatabaseManager.getDatabase();
         await db.runAsync(
-            `UPDATE shots SET result = ?, x_coord = ?, y_coord = ?, updated_at = datetime('now', 'localtime') WHERE id = ?`,
+            `UPDATE shots SET result = ?, x_coord = ?, y_coord = ?, updated_at = datetime('now') WHERE id = ?`,
             [result, x_coord, y_coord, id]
         );
     }

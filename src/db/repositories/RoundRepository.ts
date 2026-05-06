@@ -5,14 +5,13 @@ export class RoundRepository {
   static async createRound(
     session_id: number,
     total_arrows: number,
-    bow_id?: number,
     position_index?: number,
   ): Promise<number> {
     const db = await DatabaseManager.getDatabase();
 
     const result = await db.runAsync(
-      `INSERT INTO rounds (session_id, bow_id, position_index, total_arrows) VALUES (?, ?, ?, ?)`,
-      [session_id, bow_id ?? null, position_index ?? null, total_arrows],
+      `INSERT INTO rounds (session_id, position_index, total_arrows) VALUES (?, ?, ?)`,
+      [session_id, position_index ?? null, total_arrows],
     );
     return result.lastInsertRowId;
   }
@@ -37,7 +36,7 @@ export class RoundRepository {
 
   static async updateKaichu(roundId: number, isKaichu: number): Promise<void> {
     const db = await DatabaseManager.getDatabase();
-    await db.runAsync(`UPDATE rounds SET is_kaichu = ? WHERE id = ?`, [
+    await db.runAsync(`UPDATE rounds SET is_kaichu = ?, updated_at = datetime('now') WHERE id = ?`, [
       isKaichu,
       roundId,
     ]);
@@ -46,7 +45,7 @@ export class RoundRepository {
   static async deleteRound(roundId: number): Promise<void> {
     // 物理削除ではなく論理削除を行う
     const db = await DatabaseManager.getDatabase();
-    await db.runAsync(`UPDATE rounds SET is_deleted = 1 WHERE id = ?`, [
+    await db.runAsync(`UPDATE rounds SET is_deleted = 1, updated_at = datetime('now') WHERE id = ?`, [
       roundId,
     ]);
   }
