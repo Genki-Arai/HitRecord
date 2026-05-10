@@ -6,15 +6,27 @@ import InitialSetup from "../screens/initialSetup/InitialSetup";
 import StackInputScreenNavi from "./StackInputScreenNavi";
 import SampleBottomSheetScreen from "../components/practice/SampleBottomSheetScreen";
 import { LoginScreen } from "../screens/auth/LoginScreen";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { ActivityIndicator, View } from "react-native";
 
 export default function ScreenNavi() {
   const Tab = createBottomTabNavigator();
+  const { currentUser, isAuthReady } = useContext(UserContext);
+
+  if (!isAuthReady) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
         <Tab.Navigator
-          initialRouteName="InitialSetup"
+          initialRouteName={currentUser ? "InitialSetup" : "Auth"}
           screenOptions={{
             tabBarStyle: { display: "none" },
             headerShown: false,
