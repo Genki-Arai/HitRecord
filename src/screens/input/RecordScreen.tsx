@@ -4,13 +4,24 @@ import {
   target_distanceType,
   target_typeType,
 } from "../../db/repositories/SessionRepository.type";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import BottomSheet, {
-  BottomSheetModal,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import {
+  ShotPropType,
+  TargetUIHandleType,
+} from "../../components/target/TargetUI.type";
+import { TargetUI } from "../../components/target/TargetUI";
+
+const WINDOW_WIDTH = Dimensions.get("window").width;
+const TARGET_SIZE = WINDOW_WIDTH * 0.75;
 
 export default () => {
   const [category, setCategory] = useState<categoryType>("practice");
@@ -37,8 +48,14 @@ export default () => {
   const [isDatePickerVisible, setIsDatePickerVisible] =
     useState<boolean>(false);
 
+  // ボトムシートのrefとスナップポイントの定義
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = ["90%"];
+
+  // ターゲットUIのref
+  const targetUIRef = useRef<TargetUIHandleType>(null);
+  const [shots, setShots] = useState<ShotPropType[]>([]);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const categoryOptions: { label: string; value: categoryType }[] = [
     { label: "稽古", value: "practice" },
@@ -126,26 +143,26 @@ export default () => {
           />
         </View>
         <View>
-            <Text>近的・遠的</Text>
-            <Dropdown
-              labelField="label"
-              valueField="value"
-              data={targetDistanceOptions}
-              value={targetDistance}
-              onChange={(item) => setTargetDistance(item.value)}
-              disable={isLocked}
-            />
+          <Text>近的・遠的</Text>
+          <Dropdown
+            labelField="label"
+            valueField="value"
+            data={targetDistanceOptions}
+            value={targetDistance}
+            onChange={(item) => setTargetDistance(item.value)}
+            disable={isLocked}
+          />
         </View>
         <View>
-            <Text>的の種類</Text>
-            <Dropdown
-              labelField="label"
-              valueField="value"
-              data={targetTypeOptions}
-              value={targetType}
-              onChange={(item) => setTargetType(item.value)}
-              disable={isLocked}
-            />
+          <Text>的の種類</Text>
+          <Dropdown
+            labelField="label"
+            valueField="value"
+            data={targetTypeOptions}
+            value={targetType}
+            onChange={(item) => setTargetType(item.value)}
+            disable={isLocked}
+          />
         </View>
         <View>
           <Text>日付</Text>
@@ -259,6 +276,13 @@ export default () => {
           </BottomSheetModal>
         </View>
       </View>
+      <TargetUI
+        ref={targetUIRef}
+        mode="input"
+        shots={shots}
+        size={TARGET_SIZE}
+        activeIndex={activeIndex}
+      />
     </View>
   );
 };

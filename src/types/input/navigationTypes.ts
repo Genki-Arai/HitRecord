@@ -18,7 +18,8 @@ export type RootStackParamList = {
   };
   InputHitData: {
     
-  }
+  };
+  Record: undefined;
 };
 
 // export type EditHitDataOfDateNaviProps = StackScreenProps<
@@ -36,9 +37,9 @@ export type EditHitDataOfDateRouteProps = RouteProp<
   "EditHitDataOfDate"
 >;
 
-export type InputDataScreenNaviProps = StackNavigationProp<
+export type RecordNaviProps = StackNavigationProp<
   RootStackParamList,
-  "InputHitData"
+  "Record"
 >;
 
 export interface EditHitDataOfDateProps {

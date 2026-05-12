@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, ViewStyle } from "react-native";
 import { HitRecordColors } from "../../styles/constants/colors/HitRecordColors";
 import { useNavigation } from "@react-navigation/native";
-import { InputDataScreenNaviProps } from "../../types/input/navigationTypes";
+import {  RecordNaviProps } from "../../types/input/navigationTypes";
 
 export default ({
   addDataBottomSheetOpen,
@@ -9,13 +9,12 @@ export default ({
   addDataBottomSheetOpen: () => void;
 }) => {
 
-    const navigation = useNavigation<InputDataScreenNaviProps>();
-  
+    const navigation = useNavigation<RecordNaviProps>();
+    
     const gotoInputDataScreen = () => {
-      console.log("gotoInputHitData");
-      navigation.navigate({name: "InputHitData", params: {}});
+      console.log("gotoRecordScreen");
+      navigation.navigate("Record");
     };
-  
 
   return (
     <TouchableOpacity

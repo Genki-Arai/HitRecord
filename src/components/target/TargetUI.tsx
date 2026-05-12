@@ -128,11 +128,12 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
         <View
           style={{
             backgroundColor: "#dcd3b2",
-            height: props.size / 1.27, // 画面幅の95%を入力範囲の高さとする
-            width: props.size / 1.2, // 画面幅の90%を入力範囲の幅とする
+            height: props.size * 1.27, // 画面幅の95%を入力範囲の高さとする
+            width: props.size * 1.2, // 画面幅の90%を入力範囲の幅とする
             alignItems: "center",
             justifyContent: "center",
-            borderRadius: 16,
+            borderRadius: props.size * 0.05,
+            marginHorizontal: 'auto',
           }}
           ref={targetRef}
           onLayout={measureTarget}
