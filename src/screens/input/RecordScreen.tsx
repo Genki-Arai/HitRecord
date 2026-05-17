@@ -19,6 +19,9 @@ import {
   TargetUIHandleType,
 } from "../../components/target/TargetUI.type";
 import { TargetUI } from "../../components/target/TargetUI";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { Target as TargetIcon } from "lucide-react-native";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TARGET_SIZE = WINDOW_WIDTH * 0.75;
@@ -56,6 +59,33 @@ export default () => {
   const targetUIRef = useRef<TargetUIHandleType>(null);
   const [shots, setShots] = useState<ShotPropType[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  // ReanimatedのShared Values
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
+  const isPressed = useSharedValue(false);
+
+  const processRelease = (pageX: number, pageY: number) => {};
+
+  const panGesture = Gesture.Pan()
+    .onStart(() => {
+      isPressed.value = true;
+    })
+    .onUpdate((event) => {
+      translateX.value = event.translationX;
+      translateY.value = event.translationY;
+    })
+    .onFinalize((event) => {});
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [
+            { translateX: translateX.value },
+            { translateY: translateY.value },
+            { scale: withSpring(isPressed.value ? 1.2 : 1) },
+        ],
+        opacity: withSpring(isPressed.value ? 0.9 : 1),
+        zIndex: isPressed.value ? 100 : 1,
+    }));
 
   const categoryOptions: { label: string; value: categoryType }[] = [
     { label: "稽古", value: "practice" },
@@ -105,6 +135,40 @@ export default () => {
     { label: "強風", value: 4 },
     { label: "暴風", value: 5 },
   ];
+
+  const ArrowSlot = () => {
+    return (
+      <View>
+        
+        {(function () {
+          const slots = [];
+          for (let i = 0; i < totalArrows; i++) {
+            slots.push(
+              <View key={i}>
+                {shots.some((shot) => shot.arrow_index === i) ? (
+                  <View key={i}>
+                    <Text>
+                      {shots.find((shot) => shot.arrow_index === i)?.is_hit
+                          ? "⚪︎"
+                          : "×"}
+                    </Text>
+                  </View>
+                ) : (
+                  
+                  <GestureDetector gesture={panGesture}>
+                    <Animated.View style={animatedStyle}>
+                      <TargetIcon />
+                    </Animated.View>
+                  </GestureDetector>
+                )}
+              </View>,
+            );
+          }
+          return slots;
+        })()}
+      </View>
+    );
+  };
 
   return (
     <View>
@@ -276,13 +340,19 @@ export default () => {
           </BottomSheetModal>
         </View>
       </View>
+      <View>
+
       <TargetUI
         ref={targetUIRef}
         mode="input"
         shots={shots}
         size={TARGET_SIZE}
         activeIndex={activeIndex}
-      />
+        />
+        </View>
+        <View>
+            <ArrowSlot />
+        </View>
     </View>
   );
 };
