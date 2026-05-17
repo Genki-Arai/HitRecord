@@ -15,6 +15,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import {
+    JudgeResultType,
   ShotPropType,
   TargetUIHandleType,
 } from "../../components/target/TargetUI.type";
@@ -22,6 +23,7 @@ import { TargetUI } from "../../components/target/TargetUI";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { Target as TargetIcon } from "lucide-react-native";
+import { runOnJS } from "react-native-worklets";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TARGET_SIZE = WINDOW_WIDTH * 0.75;
@@ -65,7 +67,22 @@ export default () => {
   const translateY = useSharedValue(0);
   const isPressed = useSharedValue(false);
 
-  const processRelease = (pageX: number, pageY: number) => {};
+  const processRelease = (pageX: number, pageY: number) => {
+    const judgeResult:JudgeResultType | undefined | null = targetUIRef.current?.judge(pageX, pageY);
+        if(judgeResult) {
+            if(judgeResult.is_inside && activeIndex < totalArrows) {
+                const newShot: ShotPropType = {
+                    arrow_index: activeIndex,
+                    is_hit: judgeResult.is_hit,
+                    x_normalized: judgeResult.x_normalized,
+                    y_normalized: judgeResult.y_normalized,
+                }
+                setShots((prev) => [...prev, newShot]);
+                setActiveIndex((prev) => prev + 1);
+                
+            }
+        }
+  };
 
   const panGesture = Gesture.Pan()
     .onStart(() => {
@@ -75,7 +92,14 @@ export default () => {
       translateX.value = event.translationX;
       translateY.value = event.translationY;
     })
-    .onFinalize((event) => {});
+    .onFinalize((event) => {
+        runOnJS(processRelease)(event.absoluteX, event.absoluteY);
+        translateX.value = withSpring(0);
+        translateY.value = withSpring(0);
+        isPressed.value = false;
+    });
+
+    
 
     const animatedStyle = useAnimatedStyle(() => ({
         transform: [
