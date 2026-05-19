@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   JudgeResultType,
   LayoutInfoType,
@@ -115,9 +115,9 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
       },
       arrowPoint: {
         position: "absolute",
-        width: 12,
-        height: 12,
-        borderRadius: 6,
+        width: 24,
+        height: 24,
+        borderRadius: 12,
         borderWidth: 2,
         borderColor: "#FFF",
         zIndex: 10,
@@ -149,22 +149,28 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
               </View>
             </View>
 
-            {/* 矢所プロット (-6の補正込み) */}
+            {/* 矢所プロット (-12の補正込み) */}
             {props.shots.map((shot, idx) => (
               <View
                 key={idx}
                 style={[
                   styles.arrowPoint,
                   {
-                    left: props.size / 2 + shot.x_normalized * props.size - 6,
-                    top: props.size / 2 + shot.y_normalized * props.size - 6,
+                    left: props.size / 2 + shot.x_normalized * props.size - 12,
+                    top: props.size / 2 + shot.y_normalized * props.size - 12,
                     backgroundColor:
                       shot.arrow_index === props.activeIndex! - 1
                         ? "#FFD700"
                         : "#2D5A27",
+                    justifyContent: "center",
+                    alignItems: "center",
                   },
                 ]}
-              />
+              >
+                <Text style={{ color: shot.arrow_index === props.activeIndex! - 1 ? "black" : "white", fontSize: 10, fontWeight: "bold" }}>
+                  {shot.arrow_index + 1}
+                </Text>
+              </View>
             ))}
           </View>
         </View>
