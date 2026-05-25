@@ -13,6 +13,7 @@ import {
   TargetUIHandleType,
   TargetUIProps,
 } from "./TargetUI.type";
+import ShotMarker from "./ShotMarker";
 
 export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
   (props: TargetUIProps, ref) => {
@@ -151,26 +152,13 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
 
             {/* 矢所プロット (-12の補正込み) */}
             {props.shots.map((shot, idx) => (
-              <View
-                key={idx}
-                style={[
-                  styles.arrowPoint,
-                  {
-                    left: props.size / 2 + shot.x_normalized * props.size - 12,
-                    top: props.size / 2 + shot.y_normalized * props.size - 12,
-                    backgroundColor:
-                      shot.arrow_index === props.activeIndex! - 1
-                        ? "#FFD700"
-                        : "#2D5A27",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  },
-                ]}
-              >
-                <Text style={{ color: shot.arrow_index === props.activeIndex! - 1 ? "black" : "white", fontSize: 10, fontWeight: "bold" }}>
-                  {shot.arrow_index + 1}
-                </Text>
-              </View>
+              <ShotMarker 
+                key={idx} 
+                shot={shot} 
+                size={props.size} 
+                activeIndex={props.activeIndex} 
+                targetLayout={targetLayout} 
+                onShotDragEnd={props.onShotDragEnd} />
             ))}
           </View>
         </View>
