@@ -72,6 +72,16 @@ export default () => {
             }
   };
 
+  const handleShotDragEnd = (arrow_index: number, x_normalized: number, y_normalized: number) => {
+    setShots((prevShots) => (
+      prevShots.map((shot) => (
+        shot.arrow_index === arrow_index
+          ? {...shot, x_normalized, y_normalized }
+          : shot
+      ))
+    ))
+  }
+
   const categoryOptions: { label: string; value: categoryType }[] = [
     { label: "稽古", value: "practice" },
     { label: "試合", value: "match" },
@@ -298,6 +308,7 @@ export default () => {
         mode="input"
         shots={shots}
         size={TARGET_SIZE}
+        onShotDragEnd={handleShotDragEnd}
         />
         </View>
         <View>
