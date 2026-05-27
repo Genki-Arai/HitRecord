@@ -156,7 +156,7 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
                 key={idx} 
                 shot={shot} 
                 size={props.size} 
-                activeIndex={props.activeIndex} 
+                activeIndex={props.shots.length} 
                 targetLayout={targetLayout} 
                 onShotDragEnd={props.onShotDragEnd} />
             ))}
