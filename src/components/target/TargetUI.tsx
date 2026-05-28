@@ -14,6 +14,7 @@ import {
   TargetUIProps,
 } from "./TargetUI.type";
 import ShotMarker from "./ShotMarker";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
   (props: TargetUIProps, ref) => {
@@ -26,18 +27,25 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
     // 的の座標を計測
     const measureTarget = useCallback(() => {
       if (targetRef.current) {
-        targetRef.current.measure((x, y, w, h, pageX, pageY) => {
-          if (pageX !== 0 || pageY !== 0) {
-            setTargetLayout({ x: pageX, y: pageY, w: w, h: h });
+        targetRef.current.measureInWindow((x, y, w, h) => {
+          if (x !== 0 || y !== 0) {
+            console.log("measureTarget", { x, y, w, h });
+            setTargetLayout({ x, y, w, h });
           }
         });
       }
     }, []);
 
+    useFocusEffect(
+      useCallback(() => {
+        const timer = setTimeout(() => measureTarget(), 1000) // 1秒遅らせて的の座標を計測（画面遷移のアニメーションが終わるのを待つため）
+        return () => clearTimeout(timer);
+      }, [measureTarget]),
+    )
+
     const judge = (pageX: number, pageY: number): JudgeResultType => {
       const center_x = targetLayout!.x + targetLayout!.w / 2;
       const center_y = targetLayout!.y + targetLayout!.h / 2;
-
       const x_normalized = (pageX - center_x) / props.size;
       const y_normalized = (pageY - center_y) / props.size;
 
@@ -50,7 +58,6 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
         pageX <= targetLayout!.x + targetLayout!.w &&
         pageY >= targetLayout!.y &&
         pageY <= targetLayout!.y + targetLayout!.h;
-
       const isHit = distance_normalized <= 0.5; // 的中判定
 
       return {
