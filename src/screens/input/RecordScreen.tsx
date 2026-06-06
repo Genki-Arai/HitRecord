@@ -5,6 +5,7 @@ import {
   target_typeType,
 } from "../../db/repositories/SessionRepository.type";
 import {
+  Alert,
   Dimensions,
   Text,
   TextInput,
@@ -24,6 +25,7 @@ import ArrowSlotItem from "../../components/input/ArrowSlotItem";
 import { SessionRepository } from "../../db/repositories/SessionRepository";
 import { RoundRepository } from "../../db/repositories/RoundRepository";
 import { ShotRepository } from "../../db/repositories/ShotRepository";
+import { set } from "date-fns";
 
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
@@ -47,6 +49,10 @@ export default () => {
   const [bowId, setBowId] = useState<number | null>(null);
   const [arrowId, setArrowId] = useState<number | null>(null);
   const [stringId, setStringId] = useState<number | null>(null);
+  
+  // ターゲットUIのref
+  const targetUIRef = useRef<TargetUIHandleType>(null);
+  const [shots, setShots] = useState<ShotPropType[]>([]);
 
   const [sessionId, setSessionId] = useState<number | null>(null);
   const [roundId, setRoundId] = useState<number | null>(null);
@@ -59,10 +65,7 @@ export default () => {
   // ボトムシートのrefとスナップポイントの定義
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = ["90%"];
-
-  // ターゲットUIのref
-  const targetUIRef = useRef<TargetUIHandleType>(null);
-  const [shots, setShots] = useState<ShotPropType[]>([]);
+  
 
   const processRelease = async (arrow_index: number, pageX: number, pageY: number) => {
     if(shots.some((shot) => shot.arrow_index === arrow_index)) return; // すでに入力済みの矢は処理しない
@@ -112,6 +115,43 @@ export default () => {
                 setShotIds((prev) => [...prev, newShotId]);
             }
   };
+
+  const handleReset = () => {
+    Alert.alert(
+      "入力内容のリセット",
+      "入力内容をリセットしますか？",
+      [
+        { text: "キャンセル", style: "cancel" },
+        { text: "リセット", style: "destructive", onPress: () => resetInputDatas() },
+      ]
+    )
+  }
+
+  const resetInputDatas = async () => {
+    if(sessionId === null) {
+      
+    } else {
+      await RoundRepository.deleteRound(roundId!);
+      await SessionRepository.deleteSession(sessionId);
+      setRoundId(null);
+      setSessionId(null);
+    }
+    setCategory("practice");
+    setTotalArrows(4);
+    setPositionIndex(0);
+    setTargetDistance("close");
+    setTargetType("kasumi");
+    setDate(new Date().toISOString().split("T")[0]);
+    setLocation(undefined);
+    setWeather(undefined);
+    setWindLevel(undefined);
+    setMemo("");
+    setBowId(null);
+    setArrowId(null);
+    setStringId(null);
+    setShots([]);
+    setShotIds([]);
+  }
 
   const handleShotDragEnd = (arrow_index: number, x_normalized: number, y_normalized: number) => {
     setShots((prevShots) => (
@@ -343,32 +383,37 @@ export default () => {
         </View>
       </View>
       <View>
+        <TouchableOpacity onPress={handleReset}>
+          <Text>リセット</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
 
-      <TargetUI
-        ref={targetUIRef}
-        mode="input"
-        shots={shots}
-        size={TARGET_SIZE}
-        onShotDragEnd={handleShotDragEnd}
-        />
-        </View>
-        <View>
-            {(function() {
-              const slots = [];
-              for (let i = 0; i < totalArrows; i++) {
-                slots.push(
-                  <ArrowSlotItem
-                    key={i}
-                    arrow_index={i}
-                    isRecorded={shots.some((shot) => shot.arrow_index === i)}
-                    shot={shots.find((shot) => shot.arrow_index === i)}
-                    onFinalize={processRelease}
-                  />
-                )
-              }
-              return slots;
-            })()}
-        </View>
+        <TargetUI
+          ref={targetUIRef}
+          mode="input"
+          shots={shots}
+          size={TARGET_SIZE}
+          onShotDragEnd={handleShotDragEnd}
+          />
+      </View>
+      <View>
+          {(function() {
+            const slots = [];
+            for (let i = 0; i < totalArrows; i++) {
+              slots.push(
+                <ArrowSlotItem
+                  key={i}
+                  arrow_index={i}
+                  isRecorded={shots.some((shot) => shot.arrow_index === i)}
+                  shot={shots.find((shot) => shot.arrow_index === i)}
+                  onFinalize={processRelease}
+                />
+              )
+            }
+            return slots;
+          })()}
+      </View>
     </View>
   );
 };
