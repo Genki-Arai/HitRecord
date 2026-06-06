@@ -46,3 +46,4 @@ google-services.json
 # Test files
 src/components/practice/
 src/screens/input/test-firebase/
+RecordScreen_layout.js

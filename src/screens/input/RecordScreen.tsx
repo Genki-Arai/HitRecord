@@ -21,6 +21,9 @@ import {
 } from "../../components/target/TargetUI.type";
 import { TargetUI } from "../../components/target/TargetUI";
 import ArrowSlotItem from "../../components/input/ArrowSlotItem";
+import { SessionRepository } from "../../db/repositories/SessionRepository";
+import { RoundRepository } from "../../db/repositories/RoundRepository";
+import { ShotRepository } from "../../db/repositories/ShotRepository";
 
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
@@ -46,6 +49,8 @@ export default () => {
   const [stringId, setStringId] = useState<number | null>(null);
 
   const [sessionId, setSessionId] = useState<number | null>(null);
+  const [roundId, setRoundId] = useState<number | null>(null);
+  const [shotIds, setShotIds] = useState<number[]>([]);
   const isLocked: boolean = sessionId !== null;
 
   const [isDatePickerVisible, setIsDatePickerVisible] =
@@ -59,7 +64,9 @@ export default () => {
   const targetUIRef = useRef<TargetUIHandleType>(null);
   const [shots, setShots] = useState<ShotPropType[]>([]);
 
-  const processRelease = (arrow_index: number, pageX: number, pageY: number) => {
+  const processRelease = async (arrow_index: number, pageX: number, pageY: number) => {
+    if(shots.some((shot) => shot.arrow_index === arrow_index)) return; // すでに入力済みの矢は処理しない
+
     const judgeResult:JudgeResultType | undefined | null = targetUIRef.current?.judge(pageX, pageY); 
             if(judgeResult?.is_inside && arrow_index < totalArrows) {
                 const newShot: ShotPropType = {
@@ -69,6 +76,40 @@ export default () => {
                     y_normalized: judgeResult.y_normalized,
                 }
                 setShots((prev) => [...prev, newShot]);
+
+                const result: number = judgeResult.is_hit ? 1 : 0;
+                let targetRoundId: number;
+                if(sessionId === null) {
+                    const newSessionId: number = await SessionRepository.createSession({
+                        category: category,
+                        date: date,
+                        location: location,
+                        weather: weather,
+                        wind_level: windLevel,
+                        memo: memo,
+                        target_distance: targetDistance,
+                        target_type: targetType,
+                        equipment_bow_id: bowId,
+                        equipment_arrow_id: arrowId,
+                        equipment_string_id: stringId,
+                    });
+                    setSessionId(newSessionId);
+
+                    targetRoundId = await RoundRepository.createRound(newSessionId, totalArrows, positionIndex);
+                    setRoundId(targetRoundId);
+
+                  } else {
+                    targetRoundId = roundId!;
+                  }
+                const newShotId: number = await ShotRepository.createShot({
+                      round_id: targetRoundId,
+                      arrow_index: arrow_index,
+                      result: result,
+                      x_coord: judgeResult.x_normalized,
+                      y_coord: judgeResult.y_normalized,
+                    });
+
+                setShotIds((prev) => [...prev, newShotId]);
             }
   };
 
