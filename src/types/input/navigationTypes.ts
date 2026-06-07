@@ -20,6 +20,11 @@ export type RootStackParamList = {
     
   };
   Record: undefined;
+  RoundReview: {
+    session_id: number | null;
+    round_id: number | null;
+    total_arrows: number;
+  }
 };
 
 // export type EditHitDataOfDateNaviProps = StackScreenProps<

@@ -25,7 +25,8 @@ import ArrowSlotItem from "../../components/input/ArrowSlotItem";
 import { SessionRepository } from "../../db/repositories/SessionRepository";
 import { RoundRepository } from "../../db/repositories/RoundRepository";
 import { ShotRepository } from "../../db/repositories/ShotRepository";
-import { set } from "date-fns";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../types/input/navigationTypes";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TARGET_SIZE = WINDOW_WIDTH * 0.75;
@@ -64,6 +65,19 @@ export default () => {
   // ボトムシートのrefとスナップポイントの定義
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = ["90%"];
+
+  const isCompleted = shots.length === totalArrows;
+
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const gotoRecordReviewScreen = () => {
+    navigation.navigate("RoundReview", {
+      session_id: sessionId!,
+      round_id: roundId!,
+      total_arrows: totalArrows,
+    });
+  }
+
 
   const processRelease = async (
     arrow_index: number,
@@ -394,6 +408,9 @@ export default () => {
       <View>
         <TouchableOpacity onPress={handleReset}>
           <Text>リセット</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={gotoRecordReviewScreen} disabled={!isCompleted}>
+          <Text>入力完了</Text>
         </TouchableOpacity>
       </View>
       <View>
