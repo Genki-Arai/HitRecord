@@ -16,7 +16,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import {
-    JudgeResultType,
+  JudgeResultType,
   ShotPropType,
   TargetUIHandleType,
 } from "../../components/target/TargetUI.type";
@@ -26,7 +26,6 @@ import { SessionRepository } from "../../db/repositories/SessionRepository";
 import { RoundRepository } from "../../db/repositories/RoundRepository";
 import { ShotRepository } from "../../db/repositories/ShotRepository";
 import { set } from "date-fns";
-
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const TARGET_SIZE = WINDOW_WIDTH * 0.75;
@@ -49,7 +48,7 @@ export default () => {
   const [bowId, setBowId] = useState<number | null>(null);
   const [arrowId, setArrowId] = useState<number | null>(null);
   const [stringId, setStringId] = useState<number | null>(null);
-  
+
   // ターゲットUIのref
   const targetUIRef = useRef<TargetUIHandleType>(null);
   const [shots, setShots] = useState<ShotPropType[]>([]);
@@ -65,71 +64,77 @@ export default () => {
   // ボトムシートのrefとスナップポイントの定義
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = ["90%"];
-  
 
-  const processRelease = async (arrow_index: number, pageX: number, pageY: number) => {
-    if(shots.some((shot) => shot.arrow_index === arrow_index)) return; // すでに入力済みの矢は処理しない
+  const processRelease = async (
+    arrow_index: number,
+    pageX: number,
+    pageY: number,
+  ) => {
+    if (shots.some((shot) => shot.arrow_index === arrow_index)) return; // すでに入力済みの矢は処理しない
 
-    const judgeResult:JudgeResultType | undefined | null = targetUIRef.current?.judge(pageX, pageY); 
-            if(judgeResult?.is_inside && arrow_index < totalArrows) {
-                const newShot: ShotPropType = {
-                    arrow_index: arrow_index,
-                    is_hit: judgeResult.is_hit,
-                    x_normalized: judgeResult.x_normalized,
-                    y_normalized: judgeResult.y_normalized,
-                }
-                setShots((prev) => [...prev, newShot]);
+    const judgeResult: JudgeResultType | undefined | null =
+      targetUIRef.current?.judge(pageX, pageY);
+    if (judgeResult?.is_inside && arrow_index < totalArrows) {
+      const newShot: ShotPropType = {
+        arrow_index: arrow_index,
+        is_hit: judgeResult.is_hit,
+        x_normalized: judgeResult.x_normalized,
+        y_normalized: judgeResult.y_normalized,
+      };
+      setShots((prev) => [...prev, newShot]);
 
-                const result: number = judgeResult.is_hit ? 1 : 0;
-                let targetRoundId: number;
-                if(sessionId === null) {
-                    const newSessionId: number = await SessionRepository.createSession({
-                        category: category,
-                        date: date,
-                        location: location,
-                        weather: weather,
-                        wind_level: windLevel,
-                        memo: memo,
-                        target_distance: targetDistance,
-                        target_type: targetType,
-                        equipment_bow_id: bowId,
-                        equipment_arrow_id: arrowId,
-                        equipment_string_id: stringId,
-                    });
-                    setSessionId(newSessionId);
+      const result: number = judgeResult.is_hit ? 1 : 0;
+      let targetRoundId: number;
+      if (sessionId === null) {
+        const newSessionId: number = await SessionRepository.createSession({
+          category: category,
+          date: date,
+          location: location,
+          weather: weather,
+          wind_level: windLevel,
+          memo: memo,
+          target_distance: targetDistance,
+          target_type: targetType,
+          equipment_bow_id: bowId,
+          equipment_arrow_id: arrowId,
+          equipment_string_id: stringId,
+        });
+        setSessionId(newSessionId);
 
-                    targetRoundId = await RoundRepository.createRound(newSessionId, totalArrows, positionIndex);
-                    setRoundId(targetRoundId);
+        targetRoundId = await RoundRepository.createRound(
+          newSessionId,
+          totalArrows,
+          positionIndex,
+        );
+        setRoundId(targetRoundId);
+      } else {
+        targetRoundId = roundId!;
+      }
+      const newShotId: number = await ShotRepository.createShot({
+        round_id: targetRoundId,
+        arrow_index: arrow_index,
+        result: result,
+        x_coord: judgeResult.x_normalized,
+        y_coord: judgeResult.y_normalized,
+      });
 
-                  } else {
-                    targetRoundId = roundId!;
-                  }
-                const newShotId: number = await ShotRepository.createShot({
-                      round_id: targetRoundId,
-                      arrow_index: arrow_index,
-                      result: result,
-                      x_coord: judgeResult.x_normalized,
-                      y_coord: judgeResult.y_normalized,
-                    });
-
-                setShotIds((prev) => [...prev, newShotId]);
-            }
+      setShotIds((prev) => [...prev, newShotId]);
+    }
   };
 
   const handleReset = () => {
-    Alert.alert(
-      "入力内容のリセット",
-      "入力内容をリセットしますか？",
-      [
-        { text: "キャンセル", style: "cancel" },
-        { text: "リセット", style: "destructive", onPress: () => resetInputDatas() },
-      ]
-    )
-  }
+    Alert.alert("入力内容のリセット", "入力内容をリセットしますか？", [
+      { text: "キャンセル", style: "cancel" },
+      {
+        text: "リセット",
+        style: "destructive",
+        onPress: () => resetInputDatas(),
+      },
+    ]);
+  };
 
   const resetInputDatas = async () => {
-    if(sessionId === null) {
-      
+    if (sessionId === null) {
     } else {
       await RoundRepository.deleteRound(roundId!);
       await SessionRepository.deleteSession(sessionId);
@@ -151,17 +156,21 @@ export default () => {
     setStringId(null);
     setShots([]);
     setShotIds([]);
-  }
+  };
 
-  const handleShotDragEnd = (arrow_index: number, x_normalized: number, y_normalized: number) => {
-    setShots((prevShots) => (
-      prevShots.map((shot) => (
+  const handleShotDragEnd = (
+    arrow_index: number,
+    x_normalized: number,
+    y_normalized: number,
+  ) => {
+    setShots((prevShots) =>
+      prevShots.map((shot) =>
         shot.arrow_index === arrow_index
-          ? {...shot, x_normalized, y_normalized }
-          : shot
-      ))
-    ))
-  }
+          ? { ...shot, x_normalized, y_normalized }
+          : shot,
+      ),
+    );
+  };
 
   const categoryOptions: { label: string; value: categoryType }[] = [
     { label: "稽古", value: "practice" },
@@ -388,31 +397,30 @@ export default () => {
         </TouchableOpacity>
       </View>
       <View>
-
         <TargetUI
           ref={targetUIRef}
           mode="input"
           shots={shots}
           size={TARGET_SIZE}
           onShotDragEnd={handleShotDragEnd}
-          />
+        />
       </View>
       <View>
-          {(function() {
-            const slots = [];
-            for (let i = 0; i < totalArrows; i++) {
-              slots.push(
-                <ArrowSlotItem
-                  key={i}
-                  arrow_index={i}
-                  isRecorded={shots.some((shot) => shot.arrow_index === i)}
-                  shot={shots.find((shot) => shot.arrow_index === i)}
-                  onFinalize={processRelease}
-                />
-              )
-            }
-            return slots;
-          })()}
+        {(function () {
+          const slots = [];
+          for (let i = 0; i < totalArrows; i++) {
+            slots.push(
+              <ArrowSlotItem
+                key={i}
+                arrow_index={i}
+                isRecorded={shots.some((shot) => shot.arrow_index === i)}
+                shot={shots.find((shot) => shot.arrow_index === i)}
+                onFinalize={processRelease}
+              />,
+            );
+          }
+          return slots;
+        })()}
       </View>
     </View>
   );
