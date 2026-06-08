@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 import { UserRepository } from "./src/db/repositories/UserRepository";
 import { UserContext } from "./src/contexts/UserContext";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 // import SampleBottomSheetScreen from "./components/practice/SampleBottomSheetScreen";
 
 export default function App() {
@@ -34,14 +35,16 @@ export default function App() {
   return (
     <UserContext.Provider value={{ currentUser, isAuthReady }}>
       <GestureHandlerRootView>
-        <NavigationContainer>
-          <ScreenNavi />
+        <BottomSheetModalProvider>
+          <NavigationContainer>
+            <ScreenNavi />
 
-          {/* <TopPage /> */}
+            {/* <TopPage /> */}
 
-          {/* <DrawerTopPage /> */}
-        </NavigationContainer>
-        {/* <SampleBottomSheetScreen /> */}
+            {/* <DrawerTopPage /> */}
+          </NavigationContainer>
+          {/* <SampleBottomSheetScreen /> */}
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </UserContext.Provider>
   );

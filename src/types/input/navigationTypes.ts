@@ -18,6 +18,12 @@ export type RootStackParamList = {
   };
   InputHitData: {
     
+  };
+  Record: undefined;
+  RoundReview: {
+    session_id: number | null;
+    round_id: number | null;
+    total_arrows: number;
   }
 };
 
@@ -36,9 +42,9 @@ export type EditHitDataOfDateRouteProps = RouteProp<
   "EditHitDataOfDate"
 >;
 
-export type InputDataScreenNaviProps = StackNavigationProp<
+export type RecordNaviProps = StackNavigationProp<
   RootStackParamList,
-  "InputHitData"
+  "Record"
 >;
 
 export interface EditHitDataOfDateProps {

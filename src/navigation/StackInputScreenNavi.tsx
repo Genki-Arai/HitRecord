@@ -6,7 +6,8 @@ import { InputContext } from "../screens/input/InputContext";
 import { useEffect, useState } from "react";
 import { HitDataType2 } from "../types/input/HitDataType2";
 import { getAllHitData } from "../utils/database/selectHitData";
-import InputDataScreen from "../screens/input/InputDataScreen";
+import RecordScreen from "../screens/input/RecordScreen";
+import RoundReviewScreen from "../screens/input/RoundReviewScreen";
 
 export default () => {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -30,8 +31,9 @@ export default () => {
         screenOptions={{ headerShown: false }} // trueだとヘッダー(タイトルバー)を表示する
       >
         <Stack.Screen name="InputMain" component={InputScreen} />
-        <Stack.Screen name="InputHitData" component={InputDataScreen} />
+        <Stack.Screen name="Record" component={RecordScreen} />
         <Stack.Screen name="EditHitDataOfDate" component={EditHitDataOfDate} />
+        <Stack.Screen name="RoundReview" component={RoundReviewScreen} />
       </Stack.Navigator>
       {/* <SampleBottomSheetScreen /> */}
     </InputContext.Provider>

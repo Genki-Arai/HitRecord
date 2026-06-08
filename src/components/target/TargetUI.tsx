@@ -6,13 +6,15 @@ import {
   useRef,
   useState,
 } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   JudgeResultType,
   LayoutInfoType,
   TargetUIHandleType,
   TargetUIProps,
 } from "./TargetUI.type";
+import ShotMarker from "./ShotMarker";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
   (props: TargetUIProps, ref) => {
@@ -25,18 +27,25 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
     // 的の座標を計測
     const measureTarget = useCallback(() => {
       if (targetRef.current) {
-        targetRef.current.measure((x, y, w, h, pageX, pageY) => {
-          if (pageX !== 0 || pageY !== 0) {
-            setTargetLayout({ x: pageX, y: pageY, w: w, h: h });
+        targetRef.current.measureInWindow((x, y, w, h) => {
+          if (x !== 0 || y !== 0) {
+            console.log("measureTarget", { x, y, w, h });
+            setTargetLayout({ x, y, w, h });
           }
         });
       }
     }, []);
 
+    useFocusEffect(
+      useCallback(() => {
+        const timer = setTimeout(() => measureTarget(), 1000) // 1秒遅らせて的の座標を計測（画面遷移のアニメーションが終わるのを待つため）
+        return () => clearTimeout(timer);
+      }, [measureTarget]),
+    )
+
     const judge = (pageX: number, pageY: number): JudgeResultType => {
       const center_x = targetLayout!.x + targetLayout!.w / 2;
       const center_y = targetLayout!.y + targetLayout!.h / 2;
-
       const x_normalized = (pageX - center_x) / props.size;
       const y_normalized = (pageY - center_y) / props.size;
 
@@ -49,7 +58,6 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
         pageX <= targetLayout!.x + targetLayout!.w &&
         pageY >= targetLayout!.y &&
         pageY <= targetLayout!.y + targetLayout!.h;
-
       const isHit = distance_normalized <= 0.5; // 的中判定
 
       return {
@@ -115,9 +123,9 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
       },
       arrowPoint: {
         position: "absolute",
-        width: 12,
-        height: 12,
-        borderRadius: 6,
+        width: 24,
+        height: 24,
+        borderRadius: 12,
         borderWidth: 2,
         borderColor: "#FFF",
         zIndex: 10,
@@ -128,11 +136,12 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
         <View
           style={{
             backgroundColor: "#dcd3b2",
-            height: props.size / 1.27, // 画面幅の95%を入力範囲の高さとする
-            width: props.size / 1.2, // 画面幅の90%を入力範囲の幅とする
+            height: props.size * 1.27, // 画面幅の95%を入力範囲の高さとする
+            width: props.size * 1.2, // 画面幅の90%を入力範囲の幅とする
             alignItems: "center",
             justifyContent: "center",
-            borderRadius: 16,
+            borderRadius: props.size * 0.05,
+            marginHorizontal: 'auto',
           }}
           ref={targetRef}
           onLayout={measureTarget}
@@ -148,22 +157,15 @@ export const TargetUI = forwardRef<TargetUIHandleType, TargetUIProps>(
               </View>
             </View>
 
-            {/* 矢所プロット (-6の補正込み) */}
+            {/* 矢所プロット (-12の補正込み) */}
             {props.shots.map((shot, idx) => (
-              <View
-                key={idx}
-                style={[
-                  styles.arrowPoint,
-                  {
-                    left: props.size / 2 + shot.x_normalized * props.size - 6,
-                    top: props.size / 2 + shot.y_normalized * props.size - 6,
-                    backgroundColor:
-                      shot.arrow_index === props.activeIndex! - 1
-                        ? "#FFD700"
-                        : "#2D5A27",
-                  },
-                ]}
-              />
+              <ShotMarker 
+                key={idx} 
+                shot={shot} 
+                size={props.size} 
+                activeIndex={props.shots.length} 
+                targetLayout={targetLayout} 
+                onShotDragEnd={props.onShotDragEnd} />
             ))}
           </View>
         </View>

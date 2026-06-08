@@ -13,6 +13,7 @@ export type TargetUIProps = {
     activeIndex?: number; // 入力モードで、現在入力中の矢のインデックス
     size: number; // 的のサイズ(SCREEN_WIDTH * 0.75)
     onShotTap?: (arrow_index: number) => void; // 入力モードで、矢がタップされたときのコールバック
+    onShotDragEnd?: (arrow_index: number, x_normalized: number, y_normalized: number) => void; // 入力モードで、矢のドラッグが終了したときのコールバック
 }
 
 export type LayoutInfoType = {
